@@ -1,0 +1,184 @@
+<div class="content__wrapper-missed" [attr.dir]="chatService?.currentLanguage === 'ar' ? 'rtl' : 'ltr'">
+  <app-loader *ngIf="isLoading"></app-loader>
+  <div class="header__text">
+    {{gettingLanguage && gettingLanguage['missed'] && gettingLanguage['missed']['ui_elements_messages']['missed_chat'] ? gettingLanguage && gettingLanguage['missed'] && gettingLanguage['missed']['ui_elements_messages']['missed_chat'] : 'Missed Chats'}}
+  </div>
+
+  <div class="chat__filters">
+    <div class="chat__calender">
+      <input class="chat__calender--picker" (keydown)="$event.preventDefault()" ngxDaterangepickerMd
+        placeholder="dd/mm/yyyy - dd/mm/yyyy" [autoApply]="true" [(ngModel)]="selectedDates" [autoApply]="true"
+        [locale]="{format: 'DD/MM/YYYY'}" (keydown)="clearCalender($event)">
+      <i class="fas fa-calendar-alt" [class.arabic]="chatService?.currentLanguage === 'ar'"></i>
+    </div>
+
+    <div class="dropdown select" tabindex="0" style="display: block;margin-right: 1rem"
+      (mousedown)="selectDropDown($event)" [ngClass]="statusDropdown ? 'open' : ''">
+      <span class="current">{{ teamDropdown[selectedMember]?.key }}</span>
+      <div class="list">
+        <perfect-scrollbar>
+          <ul>
+            <li class="option" [ngClass]="{'selected': i === selectedMember}"
+              *ngFor="let item of teamDropdown; let i = index;" title="" (mousedown)="onChangStatus($event,i)">
+              <span>{{ item?.key }}</span>
+            </li>
+          </ul>
+        </perfect-scrollbar>
+      </div>
+    </div>
+
+    <button type="button" class="custom-button chat__filters--submit"
+      [class.arabic]="chatService?.currentLanguage === 'ar'" (mousedown)="filterData(1, true)">
+      <span>
+        {{gettingLanguage && gettingLanguage['missed'] && gettingLanguage['missed']['ui_elements_messages']['submit'] ? gettingLanguage && gettingLanguage['missed'] && gettingLanguage['missed']['ui_elements_messages']['submit'] : 'Submit'}}
+      </span>
+    </button>
+
+    <div class="chat__dayspicker">
+      <span *ngFor="let day of days; let i = index" [ngClass]="{'chat__dayspicker--current': i === selectedDay}"
+        (click)="changeDays(i)" class="pad-span">
+        <span *ngIf="isSuperAdmin">
+          {{day}} Days
+        </span>
+        <span *ngIf="!isSuperAdmin">
+          {{day}}
+          {{gettingLanguage && gettingLanguage['missed'] && gettingLanguage['missed']['ui_elements_messages']['days'] ? gettingLanguage && gettingLanguage['missed'] && gettingLanguage['missed']['ui_elements_messages']['days'] : 'Days'}}
+        </span>
+      </span>
+    </div>
+  </div>
+  <div class="content__wrapper ">
+    <div class="dataTables_wrapper no-footer">
+      <table class="row-border hover dataTable">
+        <thead>
+          <tr>
+            <th>
+              {{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['source_type'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['source_type'] : 'Source Type'}}
+            </th>
+            <th>
+              {{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['identifier'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['identifier'] : 'Identifier'}}
+            </th>
+            <th>
+              {{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['client_query'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['client_query'] : 'Client Query'}}
+            </th>
+            <th>
+              {{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['status'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['status'] : 'Status'}}
+            </th>
+            <th>
+              {{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['date'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['date'] : 'Query Date'}}
+            </th>
+            <th>
+              {{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['action'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['action'] : 'Action'}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="missedChatData?.length > 0">
+            <tr *ngFor="let missedChat of missedChatData; let i = index;">
+              <td>{{ missedChat?.source_type }}</td>
+              <td>{{ missedChat?.client_display_name }}</td>
+              <td>
+                <span class="icon" (mouseenter)="getClienQuery(i)">
+                  <i class="fa fa-eye"></i>
+                  <div class="icon-hover-text-long">
+                    <ng-container *ngIf="!clientQuery || clientQuery?.length === 0">
+                      <span>Loading...</span>
+                    </ng-container>
+                    <ng-container *ngIf="clientQuery && clientQuery?.length > 0">
+                      <div *ngFor="let message of clientQuery;">
+                        <span style="text-transform: capitalize;">{{ message?.recipient }} </span> :
+                        <span>{{ message?.text }} </span>
+                      </div>
+                    </ng-container>
+                  </div>
+                </span>
+              </td>
+              <td>{{ missedChat?.message }}</td>
+              <td>{{ missedChat?.date }}</td>
+              <td>
+                <ng-container *ngIf="missedChat?.status === 0 && missedChat?.source_type === 'whatsapp'">
+                  <span (click)="updateAction(1, i)" class="icon icon--accepted popup-btn test offline-query-action "
+                    id="send-push">
+                    <span
+                      class="icon-hover-text">{{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['push_btn'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['push_btn'] : 'Push'}}</span>
+                    <i class="fab fa-whatsapp"></i>
+                  </span>
+                  <span (click)="updateAction(2, i)" class="icon icon--rejected offline-query-action">
+                    <span
+                      class="icon-hover-text">{{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['reject_btn'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['reject_btn'] : 'Reject'}}</span>
+                    <i class="fas fa-times"></i>
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="missedChat?.status === 0 && missedChat?.source_type !== 'whatsapp'">
+                  <span (click)="updateAction(2, i)" class="icon icon--rejected offline-query-action">
+                    <span
+                      class="icon-hover-text">{{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['reject_btn'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['reject_btn'] : 'Reject'}}</span>
+                    <i class="fas fa-times"></i>
+                  </span>
+                </ng-container>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="!missedChatData?.length">
+            <tr>
+              <td colspan="6">
+                {{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['no_data'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['no_data'] : 'No Data Available'}}
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+      <div class="pagination" *ngIf="showPagination">
+        <div class="container">
+          <p style="opacity: 0;">122 data found</p>
+        </div>
+        <div class="container">
+          <ul>
+            <li [class.disabled]="currentPage < 2" (click)="updatePage('prev')">
+              {{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['previous_page'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['previous_page'] : 'Previous Page'}}
+            </li>
+            <ng-container *ngFor="let page of paginationArray; let i = index;">
+              <li [class.active]="page" *ngIf="i >= (currentPage - 1) && i < (currentPage + 1)"
+                (click)="updatePage(i+1)">
+                {{i + 1}}</li>
+            </ng-container>
+
+            <li [class.disabled]="currentPage === (paginationArray?.length)" (click)="updatePage('next')">
+              {{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['next_page'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['next_page'] : 'Next Page'}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="confirm-popup" [class.show]="showPopup">
+  <div class="backdrop" (click)="showPopup = false"></div>
+  <div class="confirm-body">
+    <a class="close-btn " (click)="showPopup = false"><i class="fas fa-times"></i></a>
+    <p *ngIf="action === 1">
+      {{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['push'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['push'] : 'Are you sure you want to push this missed chat?'}}
+    </p>
+    <p *ngIf="action === 2">
+      {{gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['rejected'] ? gettingLanguage && gettingLanguage['missed_chat'] && gettingLanguage['missed_chat']['ui_elements_messages']['rejected'] : 'Are you sure you want to reject this missed chat?'}}
+    </p>
+    <div class="buttons__all">
+      <button class="custom-button custom-button-primary" (click)="updateStatus()">
+        {{gettingLanguage && gettingLanguage['missed'] && gettingLanguage['missed']['ui_elements_messages']['yes'] ? gettingLanguage && gettingLanguage['missed'] && gettingLanguage['missed']['ui_elements_messages']['yes'] : 'Yes'}}
+      </button>
+      <button class="custom-button" (click)="showPopup = false">
+        {{gettingLanguage && gettingLanguage['missed'] && gettingLanguage['missed']['ui_elements_messages']['no'] ? gettingLanguage && gettingLanguage['missed'] && gettingLanguage['missed']['ui_elements_messages']['no'] : 'No'}}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="notifier" [ngClass]="{'notifier-show':notifier?.show, 'arabic': chatService?.currentLanguage === 'ar' }">
+  <span class="notifier__icon " [class.notifier__success]=" notifier?.iserror === false"
+    [class.notifier__warning]="notifier?.iserror === true" [class.arabic]="chatService?.currentLanguage === 'ar'">
+    <i class='fas '
+      [ngClass]="{'fa-times': notifier?.iserror === true, 'fa-check': notifier?.iserror === false}"></i></span>
+  <span class="notifier__text">{{notifier?.text}}</span>
+</div>

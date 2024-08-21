@@ -1,0 +1,51 @@
+<!-- <div class="chat__bottom" (click)="hideFeatures()"> -->
+<div class="chat__bottom" (click)="hideEmojis()">
+  <div class="textarea__emojis" *ngIf="showEmojis" escClose (escEvent)="showEmojis=$event"
+    (click)="$event.stopPropagation();">
+    <emoji-mart title="Pick your emoji…" emoji="point_up" (emojiClick)="emojiSelected($event)" set="google">
+    </emoji-mart>
+  </div>
+  <app-canned-response [showCannedList]="showCannedList" (outputEvent)="outputCannedResponse($event)">
+  </app-canned-response>
+  <app-internal-comment [showInternalAgents]="showInternalAgents" (commentEvent)="commentAgent($event)">
+  </app-internal-comment>
+  <div class="textarea" [class.disableChat]="client?.hasLeft" [class.arabic]="chatService?.currentLanguage === 'ar'">
+    <span class="textarea__icons" [class.arabic]="chatService?.currentLanguage === 'ar'">
+      <label class="textarea__icons--transfer" (click)="chatTransferBool=!chatTransferBool" *ngIf="allowTransfer">
+        <img src="/images/transfer.svg" alt="">
+      </label>
+      <label for="file-upload-chat" class="textarea__icons--linkicon" *ngIf="allowAttachment">
+        <input type="file" style="display: none" id="file-upload-chat" #attachment
+          (change)="onFileChange($event, attachment)">
+        <img src="/images/attachments.svg" alt="">
+      </label>
+      <label class="textarea__icons--smiley" (click)="toggleEmojis($event)">
+        <img src="/images/smiley.svg" alt="" [ngClass]="{'transform':showEmojis}">
+      </label>
+    </span>
+    <span contentEditable="true" class="custom-input chatinput" [ngClass]="{
+     'chatinput-2':allowTransfer || allowAttachment,
+     'chatinput-3':allowTransfer && allowAttachment , 'arabic': chatService?.currentLanguage === 'ar'}" id="input_area"
+      rows="1" #chatMessage spellcheck="false" (keydown)="chatEnter($event)" (keyup)="findCaretPos()" autocomplete="off"
+      (click)="findCaretPos()" autocorrect="off" (input)="this.model" [textContent]="model" (keypress)="placeholder()"
+      (focusout)="focusOutFunction()">
+    </span>
+
+    <a class="custom-button chat__send" (click)="sendChat()">
+      <i class="fa fa-paper-plane"></i>
+    </a>
+  </div>
+</div>
+
+<app-chat-transfer *ngIf="chatTransferBool" [language]="gettingLanguage" [client]="client" (closeEmitter)="closePopup()"
+  escClose (escEvent)="chatTransferBool=$event">
+</app-chat-transfer>
+
+<div class="notifier" [ngClass]="{'notifier-show':showNotifier, 'arabic': chatService?.currentLanguage === 'ar'}">
+  <span class="notifier__icon notifier__warning" [class.arabic]="chatService?.currentLanguage === 'ar'"><i
+      class='fas fa-times'></i></span>
+  <span class="notifier__text">
+    <!--      Uploading is in progress!-->
+    {{gettingLanguage['chat']['ui_elements_messages']['upload_in_progress'] ? gettingLanguage['chat']['ui_elements_messages']['upload_in_progress'] : ' Uploading is in progress!'}}
+  </span>
+</div>

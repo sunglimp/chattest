@@ -1,0 +1,34 @@
+<ng-container *ngIf="chats.length && !chatClosed">
+  <div class="chat__wrapper">
+    <app-chat-box [chats]="chats" [client]="client" [showPreviousButton]="showPreviousButton"
+      [uploadDetails]="uploadDetails" [chatsLength]="chats.length" (cancelAttachment)="cancelAttachment($event)"
+      [chatsLoading]="chatsLoading" (openPopup)="openPopup($event)"></app-chat-box>
+  </div>
+  <app-chat-input [client]="client" [language]="gettingLanguage" [uploadDetails]="uploadDetails"
+    (chatMessageEmitter)="sendChat($event)">
+  </app-chat-input>
+</ng-container>
+<app-email *ngIf="showEmail" (emailEmitter)="emailOutput($event)" [language]="gettingLanguage"
+  [channelId]="client.channelId"></app-email>
+<app-tickets [clientData]="client" *ngIf="showTicket" (openPopup)="openPopup($event)" [language]="gettingLanguage"
+  [textHeading]="'TMS'" [appId]="3" [chatId]="client.channelId" (ticketEmitter)="ticketOutput($event)" escClose
+  (escEvent)="showTicket=false">
+</app-tickets>
+<app-tickets [clientData]="client" *ngIf="showTicketLQS" (openPopup)="openPopup($event)" [language]="gettingLanguage"
+  [textHeading]="'LQS'" [appId]="1" [chatId]="client.channelId" (ticketEmitter)="ticketOutput($event)" escClose
+  (escEvent)="showTicketLQS=false">
+</app-tickets>
+<div class="notifier" [ngClass]="{'notifier-show':showNotifier, 'arabic': chatService?.currentLanguage === 'ar' }">
+  <span class="notifier__icon notifier__warning" [class.arabic]="chatService?.currentLanguage === 'ar'"><i
+      class='fas fa-times'></i></span>
+  <span class="notifier__text">{{notifierText}}</span>
+</div>
+
+<app-close-popup *ngIf="showBanPopup" (outputEvent)="warningBanOutput($event)" [language]="gettingLanguage" escClose
+  (escEvent)="showBanPopup=false"
+  [warningMessage]="gettingLanguage['data']['interpretation']['chat']['ui_elements_messages']['ban_confirm_question'] ? gettingLanguage['data']['interpretation']['chat']['ui_elements_messages']['ban_confirm_question'] : 'Do you really want to ban this user?'">
+</app-close-popup>
+
+<app-file-view *ngIf="showViewFilePopup" (outputEvent)="closedPopup($event)" (escEvent)="showViewFilePopup=false">
+
+</app-file-view>

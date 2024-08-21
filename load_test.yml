@@ -1,0 +1,22 @@
+## YAML Template.
+---
+config:
+  target: "http://qa.livechat.com"
+  phases:
+    - duration: 10
+      arrivalRate: 1
+scenarios:
+  - flow:
+      - get:
+          url: "/"
+      - post:
+          url: "/api/v1/message"
+          json:
+            message:
+                text: "Ab fir transfer kro"
+            recipient: "AGENT"
+            chat_channel_id: 1332
+            channel_name: "visitor-7c6ed333-028d-4c55-b1a3-685b29669e68"
+            agent_id: "7"
+            message_type: "public"
+            access_token: "1IGeooBtpToJ4iSTNB11EFOjYXBP08" 

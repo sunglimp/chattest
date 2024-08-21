@@ -1,0 +1,126 @@
+<div class="content__wrapper-missed" [attr.dir]="chatService?.currentLanguage === 'ar' ? 'rtl' : 'ltr'">
+  <app-loader *ngIf="isLoading"></app-loader>
+  <div class="header__text">
+    {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['canned_response']}}
+  </div>
+  <div class="content__filters">
+    <div class="left_column">
+      <div>
+        <input type="text" class="custom-input custom-input-search" [(ngModel)]="search" id="search"
+          name="search" (keydown)="handleCannedSearchkeyUp.next($event)" id="datatable-search"
+          placeholder="{{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['search']}}">
+      </div>
+    </div>
+    <button class="custom-button custom-button-green popup-btn" id="add" (click)="addResponse();">
+      <i class="fas fa-plus-square"></i>
+      {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['response']}}
+    </button>
+  </div>
+
+  <div class="content__wrapper ">
+    <div class="dataTables_wrapper no-footer">
+      <table class="row-border hover dataTable">
+        <thead>
+          <tr>
+            <th>
+              {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['source_type'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['shortcut'] : 'Shortcut'}}
+            </th>
+            <th>
+              {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['identifier'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['response'] : 'Response'}}
+            </th>
+            <th>
+              {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['date'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['date'] : 'Date'}}
+            </th>
+            <th>
+              {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['action'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['action'] : 'Action'}}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="cannedResponseData?.length > 0">
+            <tr *ngFor="let cannedResponse of cannedResponseData; let i = index;">
+              <td>{{ cannedResponse?.shortcut }}</td>
+              <td>{{ cannedResponse?.response }}</td>
+              <td>{{ cannedResponse?.created_date }}</td>
+              <td>
+                <span [ngClass]="{'not-allowed' : !cannedResponse.can_update}"
+                  class="icon icon--accepted popup-btn test offline-query-action ">
+                  <span [ngClass]="{'display-none' : !cannedResponse.can_update}"
+                    class="icon-hover-text">{{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['edit'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['edit'] : 'Edit'}}</span>
+                  <i [ngClass]="{'pointer-events-none' : !cannedResponse.can_update}" class="fas fa-pencil-alt"
+                    (click)="onUpdate(cannedResponse)"></i>
+                </span>
+                <span [ngClass]="{'not-allowed' : !cannedResponse.can_update}"
+                  class="icon icon--rejected offline-query-action">
+                  <span [ngClass]="{'display-none': !cannedResponse.can_update}"
+                    class="icon-hover-text">{{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['delete'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['delete'] : 'Delete'}}</span>
+                  <i [ngClass]="{'pointer-events-none' : !cannedResponse.can_update}" class="fas fa-times"
+                    (click)="onDeleteConfirmation(cannedResponse)"></i>
+                </span>
+              </td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="!cannedResponseData?.length">
+            <tr>
+              <td colspan="6">
+                {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['no_data'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['no_data'] : 'No Data Available'}}
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+      <div class="pagination" *ngIf="showPagination">
+        <div class="container">
+          <p style="opacity: 0;">122 data found</p>
+        </div>
+        <div class="container">
+          <ul>
+            <li [class.disabled]="currentPage < 2" (click)="updatePage('prev')">
+              {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['previous_page'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['previous_page'] : 'Previous Page'}}
+            </li>
+            <ng-container *ngFor="let page of paginationArray; let i = index;">
+              <li [class.active]="page" *ngIf="i >= (currentPage - 1) && i < (currentPage + 1)"
+                (click)="updatePage(i+1)">
+                {{i + 1}}</li>
+            </ng-container>
+
+            <li [class.disabled]="currentPage === (paginationArray?.length)" (click)="updatePage('next')">
+              {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['next_page'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['next_page'] : 'Next Page'}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="confirm-popup" [class.show]="showPopup">
+  <div class="backdrop" (click)="showPopup = false"></div>
+  <div class="confirm-body">
+    <a class="close-btn " (click)="showPopup = false"><i class="fas fa-times"></i></a>
+    <p>
+      {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['push'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['canned_response_delete_confirm'] : 'Are you sure you want to delete this canned response?'}}
+    </p>
+    <div class="buttons__all">
+      <button class="custom-button custom-button-primary" (click)="onDelete()">
+        {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['yes'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['yes'] : 'Yes'}}
+      </button>
+      <button class="custom-button" (click)="showPopup = false">
+        {{gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['yes'] ? gettingLanguage && gettingLanguage['canned_response'] && gettingLanguage['canned_response']['ui_elements_messages']['no'] : 'Yes'}}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="notifier" [ngClass]="{'notifier-show':notifier?.show, 'arabic': chatService?.currentLanguage === 'ar' }">
+  <span class="notifier__icon " [class.notifier__success]=" notifier?.iserror === false"
+    [class.notifier__warning]="notifier?.iserror === true" [class.arabic]="chatService?.currentLanguage === 'ar'">
+    <i class='fas '
+      [ngClass]="{'fa-times': notifier?.iserror === true, 'fa-check': notifier?.iserror === false}"></i></span>
+  <span class="notifier__text">{{notifier?.text}}</span>
+</div>
+
+<canned-popup [(isShowCannedDetail)]="isShowCannedDetail" (closePopUp)="this.isShowCannedDetail = $event"
+(cannedResponseValueChange)="onRefreshCannedResponseData($event)"
+[cannedResponse]="cannedResponse" [header]=popUpHeader></canned-popup>

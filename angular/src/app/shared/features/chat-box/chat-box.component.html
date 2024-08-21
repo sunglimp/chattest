@@ -1,0 +1,350 @@
+<div class="chat__head" (mousedown)="hideFeatures()">
+  <span *ngIf="client.sourceType != null">
+    <span class="chat__head--circle" [ngClass]="{'widget-chat' : client.sourceType}">
+      <img src="/images/{{client.sourceType}}.png">
+    </span>
+  </span>
+  <span *ngIf="client.sourceType == null">
+    <span class="chat__head--circle" [ngClass]="{'widget-chat' : client.sourceType == null}">
+      <img src="/images/Surbo.png">
+    </span>
+  </span>
+  <span class="chat__head--name" *ngIf="client.clientDisplayName">
+    {{ client.clientDisplayName | titlecase }}
+    <span class="chat__head--number" *ngIf="client?.clientDisplayNumber">{{ client?.clientDisplayNumber }}</span>
+  </span>
+  <span class="chat__head--nameonly" *ngIf="!client.clientDisplayName">
+    {{ client?.clientDisplayNumber }}
+  </span>
+  <div class="chat__head--icons" [class.arabic]="chatService?.currentLanguage === 'ar'">
+    <span *ngIf="isSuperAdmin">
+      <span class="chat__head--revoke" *ngIf="route==='banned-users'" (mousedown)="revokeUser()">Revoke</span>
+    </span>
+    <span *ngIf="!isSuperAdmin">
+      <span class="chat__head--revoke" *ngIf="route==='banned-users'" (mousedown)="revokeUser()">
+        {{gettingLanguage['banned_users']['ui_elements_messages']['revoke'] ? gettingLanguage['banned_users']['ui_elements_messages']['revoke'] : 'Revoke'}}
+      </span>
+    </span>
+    <i class="fas fa-ban"
+      *ngIf="route==='chat' && client.clientDisplayName!=='Guest' && userPermissions?.banUser && client.channelType!=='internal_comment'"
+      (mousedown)="banUser()"></i>
+    <i class="fas fa-arrow-circle-down" *ngIf="route === 'archive' && userPermissions?.chatDownload"
+      (mousedown)="downloadChat()"></i>
+    <i class="fa fa-bookmark"
+      *ngIf="route!=='supervise' && userPermissions?.chatTags && client.channelType!=='internal_comment' && route!=='ticket' && route!=='banned-users'"
+      (mousedown)="showFeatures($event,'tags')"></i>
+    <i class="fa fa-at"
+      *ngIf="route!=='archive' && route!=='supervise' && userPermissions?.email && client.channelType!=='internal_comment' && route!=='ticket' && route!=='banned-users'"
+      (mousedown)="showEmail()"></i>
+    <i class="fas fa-ticket-alt" *ngIf="userPermissions?.tmsKey && route==='chat'" (mousedown)="createTicket()"></i>
+    <!-- <i class="fas fa-ticket-alt" *ngIf="userPermissions?.tmsKey && route==='chat'" (mousedown)="createTicket()"></i> -->
+    <i class="fa fa-user-md" *ngIf="userPermissions?.lqsKey && route==='chat'" (mousedown)="createTicketLQS()"></i>
+    <i class="fa fa-info" *ngIf="route!=='supervise' && route!=='ticket' && route!=='banned-users'"
+      (mousedown)="showFeatures($event,'info')"></i>
+    <i class="fas fa-ellipsis-v" *ngIf="route==='ticket'" (mousedown)="toggleTicketDropdown($event)"></i>
+    <ul class="ticket__dropdown" *ngIf="route==='ticket' && showTicketDropdown">
+      <li (mousedown)="changeTicketStatus($event,'accept')"><i class="fas fa-arrows-alt"></i>
+        <!--        Move to {{ticketType}}-->
+        <span *ngIf="ticketType == 'LQS'">
+          {{gettingLanguage['classified']['ui_elements_messages']['move_to_lqs'] ? gettingLanguage['classified']['ui_elements_messages']['move_to_lqs'] : 'Move to LQS'}}
+        </span>
+        <span *ngIf="ticketType == 'TMS'">
+          {{gettingLanguage['classified']['ui_elements_messages']['move_to_lqs'] ? gettingLanguage['classified']['ui_elements_messages']['move_to_lqs'] : 'Move to TMS'}}
+        </span>
+      </li>
+      <li (mousedown)="changeTicketStatus($event,'move')"><i class="fas fa-random"></i>
+        <!--        Change type-->
+        {{gettingLanguage['classified']['ui_elements_messages']['change_type'] ? gettingLanguage['classified']['ui_elements_messages'] : 'Change type'}}
+      </li>
+      <li (mousedown)="changeTicketStatus($event,'reject')"><i class="far fa-times-circle"></i>
+        <!--        Discard-->
+        {{gettingLanguage['classified']['ui_elements_messages']['discard'] ? gettingLanguage['classified']['ui_elements_messages']['discard'] : 'Discard'}}
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="chat__body">
+  <div class="notifier notifier__upload notifier-show" *ngIf="route==='chat'"
+    [ngClass]="{'notifier-show':uploadDetails?.uploadPercentage > -1 && !uploadDetails?.isCompleted, 'arabic': chatService?.currentLanguage === 'ar'}">
+    <div class="notifier__upload--progress">
+      <round-progress [current]="uploadDetails?.uploadPercentage " [max]="101" [radius]="15" [color]="'#20b573'"
+        [stroke]="4"></round-progress>
+      <i class="fas fa-times" (click)="stopAttachment($event)"></i>
+    </div>
+    <span class="notifier__text">Uploading {{uploadDetails?.fileName}} to {{client.clientDisplayName | titlecase}}
+      ({{uploadDetails?.uploadPercentage-1}}%)</span>
+  </div>
+
+  <div class="chat__feature" [class.arabic]="chatService?.currentLanguage === 'ar'"
+    (mousedown)="$event.stopPropagation();" *ngIf="featureBool" escClose (escEvent)="featureBool = $event"
+    [@enterAnimation]>
+    <span class="chat__feature--close" (click)="featureBool=false">
+      <i class="fas fa-times"></i>
+    </span>
+    <div class="chat__feature--header">
+      <!--      {{featureShown | titlecase}}-->
+      <span *ngIf="featureShown == 'info'">
+        {{featureShownText | titlecase}}
+      </span>
+      <span *ngIf="featureShown == 'tags'">
+        {{featureShownTag | titlecase}}
+      </span>
+    </div>
+    <app-tags *ngIf="featureShown==='tags'" [showAddTag]="showAddTag" [language]="gettingLanguage"
+      [channelId]="client.channelId" [showFeature]="featureShown==='tags'">
+    </app-tags>
+    <perfect-scrollbar #scroll>
+      <app-info *ngIf="featureShown==='info'" [showFeature]="featureShown==='info'" [info]="client.clientInfo">
+      </app-info>
+    </perfect-scrollbar>
+  </div>
+
+
+  <ul class="chat__messages" (mousedown)="hideFeatures()">
+    <app-loader *ngIf="chatsLoading"></app-loader>
+    <perfect-scrollbar #scroll>
+
+      <div class="chat__history"
+        *ngIf="client.hasHistory && showPreviousButton && client.clientDisplayName!=='Guest' && userPermissions?.chatHistory"
+        (click)="getClientHistoryChats()">
+        <span>
+          <!--          Previous chats-->
+          {{gettingLanguage && gettingLanguage['chat']['ui_elements_messages']['previous_chat'] ? gettingLanguage && gettingLanguage['chat']['ui_elements_messages']['previous_chat'] : 'Previous chats'}}
+        </span>
+      </div>
+      <ng-container *ngFor="let chat of chats;let i = index">
+        <span *ngIf="chat.messageType !='BOT'">
+          <li class="chat__li" [ngClass]="{right:chat.recipient==='VISITOR'}">
+            <span class="chat__date" *ngIf="chats[i-1]?.chatDate !== chats[i]?.chatDate">
+              <span>{{chat?.chatDate}}</span>
+            </span>
+            <span class="chat__circle"
+              [style.visibility]="chats[i-1]?.recipient!==chats[i]?.recipient || chats[i-1]?.messageType==='internal' || chats[i-1]?.messageType==='transfer' ? 'visible' : 'hidden'"
+              *ngIf="chat.messageType!=='internal' && chat.messageType!=='transfer'"
+              [title]="chat.recipient==='VISITOR' ? chat.agentDisplayName: client.clientDisplayName  | titlecase"
+              [ngClass]="{'chat__circle--bot':chat.messageType==='BOT'}"
+              [style.backgroundColor]="chat.recipient!=='VISITOR' && client.colorCode">
+              <!--            <span *ngIf="chat.recipient==='AGENT'">{{client.clientDisplayName | chatCircle |-->
+              <!--                uppercase}}</span>-->
+              <span *ngIf="chat.recipient==='VISITOR'">{{chat.agentDisplayName | chatCircle |
+                uppercase}}</span>
+              <span *ngIf="chat.recipient==='BOT'">{{client.clientDisplayName | chatCircle |
+                uppercase}}</span>
+              <span *ngIf="chat.recipient==='AGENT'">
+                <span *ngIf="client.sourceType != null">
+                  <span *ngIf="chat.sourceType == null">
+                    <span [ngClass]="{'widget-chat-circle' : client.sourceType == null}">
+                      <img src="/images/Surbo.png">
+                    </span>
+                  </span>
+                  <span *ngIf="chat.sourceType != null">
+                    <span [ngClass]="{'widget-chat-circle' : client.sourceType}">
+                      <!--                   <img src="/images/{{client.sourceType}}.png">-->
+                      <img src="/images/{{chat.sourceType}}.png">
+                    </span>
+                  </span>
+                </span>
+                <span *ngIf="client.sourceType == null">
+                  <span [ngClass]="{'widget-chat-circle' : client.sourceType == null}">
+                    <img src="/images/Surbo.png">
+                  </span>
+                </span>
+              </span>
+            </span>
+            <ng-container *ngIf="chat?.message?.text!==''">
+              <span class="chat__bubble"
+                [ngClass]="{'chat__bubble--bot':chat.messageType==='BOT',
+                'chat__bubble--location' : chat?.message?.type === 'location',
+                  'chat__bubble--internal':chat.messageType==='internal',
+                  'chat__bubble--transfer':chat.messageType==='transfer', 'arabic': chatService?.currentLanguage === 'ar'}">
+                <span class="chat__bubble--agentName" *ngIf="chat.messageType==='internal'">{{chat.agentDisplayName + ':
+                ' | titlecase}}</span>
+                <span class="chat__message" *ngIf="chat?.message?.type!=='file'"
+                  [innerHTML]="chat?.message?.text | linkPipe | emojipipe"></span>
+                <span class="chat__message--comment" *ngIf="chat.message.comment">
+                  <span>{{chat.message.transferredBy | titlecase}}</span>
+                  {{': '+ chat.message.comment}}
+                </span>
+                <span class="chat__message" *ngIf="chat.message.type==='location'">
+                  <agm-map [zoom]="15" [latitude]="chat?.message?.location?.latitude"
+                    [longitude]="chat?.message?.location?.longitude">
+                    <agm-marker (markerClick)="openWindow(0)" [latitude]="chat?.message?.location?.latitude"
+                      [longitude]="chat?.message?.location?.longitude">
+                      <agm-info-window [isOpen]="isInfoWindowOpen(0)" [latitude]="chat?.message?.location?.latitude"
+                        [longitude]="chat?.message?.location?.longitude">
+                        <!-- (click)="openInNewWindow(chat?.message?.location?.latitude, chat?.message?.location?.longitude)" -->
+                        <span style="cursor: pointer;" (click)="openInNewWindow(chat?.message?.location)">
+                          {{ chat?.message?.location?.name }}
+                          <br *ngIf="chat?.message?.location?.address" />
+                          {{ chat?.message?.location?.address }}
+                          <ng-container *ngIf="!chat?.message?.location?.address && !chat?.message?.location?.name">
+                            <small>address not found</small>
+                            <br />
+                            <small>click to explore</small>
+                          </ng-container>
+                        </span>
+                      </agm-info-window>
+                    </agm-marker>
+                  </agm-map>
+                </span>
+                <span class="chat__message chat__message--file"
+                  *ngIf="chat.message.type==='file' && chat.botChat == true"
+                  (click)="downloadViewAttachment('botChat', i,chat.message.filehash,chat.message.name)">
+                  <span class="chat__message--download">
+                    <i class=" fas fa-arrow-down"></i>
+                  </span>
+                  <span class="info">
+                    <span class="text">
+                      <p class="filename">{{chat?.message?.name}}</p>
+                      <p *ngIf="chat?.message?.name?.length===25">...</p>
+                      <p class="extension">{{chat?.message?.extension}}</p>
+                    </span>
+                    <!--                <span class="size">{{chat?.message?.size}}</span>-->
+                  </span>
+                </span>
+                <span class="chat__message chat__message--file"
+                  *ngIf="chat.message.type==='file'  && chat.botChat != true"
+                  (click)="downloadViewAttachment('' ,i,chat.message.filehash,chat.message.name)">
+                  <span class="chat__message--download">
+                    <i class=" fas fa-arrow-down"></i>
+                  </span>
+                  <span class="info">
+                    <span class="text">
+                      <p class="filename">{{chat?.message?.name}}</p>
+                      <p *ngIf="chat?.message?.name?.length===25">...</p>
+                      <p class="extension">{{chat?.message?.extension}}</p>
+                    </span>
+                    <span class="size">{{chat?.message?.size}}</span>
+                  </span>
+                </span>
+                <span class="chat__bubble--internaltime" *ngIf="chat.messageType==='internal'">{{chat?.chatTime}}
+                </span>
+              </span>
+              <span dir="ltr" class="chat__time"
+                *ngIf="chat.messageType!=='internal' && chat.messageType!=='transfer'">{{chat?.chatTime}}</span>
+            </ng-container>
+          </li>
+        </span>
+        <span *ngIf="chat.messageType == 'BOT'">
+          <li class="chat__li" [ngClass]="{right:chat.recipient==='BOT'}" *ngIf="chat?.message?.text!==''">
+            <span class="chat__date" *ngIf="chats[i-1]?.chatDate !== chats[i]?.chatDate">
+              <span>{{chat?.chatDate}}</span>
+            </span>
+            <span class="chat__circle"
+              [style.visibility]="chats[i-1]?.recipient!==chats[i]?.recipient || chats[i-1]?.messageType==='internal' || chats[i-1]?.messageType==='transfer' ? 'visible' : 'hidden'"
+              *ngIf="chat.messageType!=='internal' && chat.messageType!=='transfer'"
+              [title]="chat.recipient==='BOT' ? chat.agentDisplayName: client.clientDisplayName  | titlecase"
+              [ngClass]="{'chat__circle--bot':chat.messageType==='BOT'}"
+              [style.backgroundColor]="chat.recipient!=='VISITOR' && client.colorCode">
+              <span *ngIf="chat.recipient==='AGENT'">{{client.clientDisplayName | chatCircle |
+                uppercase}}</span>
+              <span *ngIf="chat.recipient==='BOT'">{{chat.agentDisplayName | chatCircle |
+                uppercase}}</span>
+              <span *ngIf="chat.recipient==='VISITOR'">
+                <span *ngIf="client.sourceType != null">
+                  <span *ngIf="chat.sourceType == null">
+                    <span [ngClass]="{'widget-chat-circle' : client.sourceType == null}">
+                      <img src="/images/Surbo.png">
+                    </span>
+                  </span>
+                  <span *ngIf="chat.sourceType != null">
+                    <span [ngClass]="{'widget-chat-circle' : client.sourceType}">
+                      <img src="/images/{{chat.sourceType}}.png">
+                    </span>
+                  </span>
+                </span>
+                <span *ngIf="client.sourceType == null">
+                  <span [ngClass]="{'widget-chat-circle' : client.sourceType == null}">
+                    <img src="/images/Surbo.png">
+                  </span>
+                </span>
+              </span>
+            </span>
+            <ng-container *ngIf="chat?.message?.text!==''">
+              <span class="chat__bubble"
+                [ngClass]="{'chat__bubble--bot':chat.messageType==='BOT',
+                  'chat__bubble--location' : chat?.message?.type === 'location',
+                  'chat__bubble--internal':chat.messageType==='internal',
+                  'chat__bubble--transfer':chat.messageType==='transfer','arabic': chatService?.currentLanguage === 'ar' }">
+                <span class="chat__bubble--agentName" *ngIf="chat.messageType==='internal'">{{chat.agentDisplayName + ':
+                ' | titlecase}}</span>
+                <span class="chat__message" *ngIf="chat?.message?.type!=='file'"
+                  [innerHTML]="chat?.message?.text | linkPipe | emojipipe"></span>
+                <span class="chat__message--comment" *ngIf="chat.message.comment">
+                  <span>{{chat.message.transferredBy | titlecase}}</span>
+                  {{': '+ chat.message.comment}}
+                </span>
+                <span class="chat__message" *ngIf="chat.message.type==='location'">
+                  <agm-map [zoom]="15" [latitude]="chat?.message?.location?.latitude"
+                    [longitude]="chat?.message?.location?.longitude">
+                    <agm-marker (markerClick)="openWindow(0)" [latitude]="chat?.message?.location?.latitude"
+                      [longitude]="chat?.message?.location?.longitude">
+                      <agm-info-window [isOpen]="isInfoWindowOpen(0)" [latitude]="chat?.message?.location?.latitude"
+                        [longitude]="chat?.message?.location?.longitude">
+                        <!-- (click)="openInNewWindow(chat?.message?.location?.latitude, chat?.message?.location?.longitude)" -->
+                        <span style="cursor: pointer;" (click)="openInNewWindow(chat?.message?.location)">
+                          {{ chat?.message?.location?.name }}
+                          <br *ngIf="chat?.message?.location?.address" />
+                          {{ chat?.message?.location?.address }}
+                          <ng-container *ngIf="!chat?.message?.location?.address && !chat?.message?.location?.name">
+                            <small>address not found</small>
+                            <br />
+                            <small>
+                              click to explore
+                            </small>
+                          </ng-container>
+                        </span>
+                      </agm-info-window>
+                    </agm-marker>
+                  </agm-map>
+                </span>
+                <span class="chat__message chat__message--file"
+                  *ngIf="chat.message.type==='file' && chat.botChat == true"
+                  (click)="downloadViewAttachment('botChat', i,chat,chat.message.name)">
+                  <span class="chat__message--download">
+                    <i class=" fas fa-arrow-down"></i>
+                  </span>
+                  <span class="info">
+                    <span class="text">
+                      <p class="filename">{{chat?.message?.name}}</p>
+                      <p *ngIf="chat?.message?.name?.length===25">...</p>
+                      <p class="extension">{{chat?.message?.extension}}</p>
+                    </span>
+                    <!--                <span class="size">{{chat?.message?.size}}</span>-->
+                  </span>
+                </span>
+                <span class="chat__message chat__message--file"
+                  *ngIf="chat.message.type==='file'  && chat.botChat != true"
+                  (click)="downloadViewAttachment('' ,i,chat.message.filehash,chat.message.name)">
+                  <span class="chat__message--download">
+                    <i class=" fas fa-arrow-down"></i>
+                  </span>
+                  <span class="info">
+                    <span class="text">
+                      <p class="filename">{{chat?.message?.name}}</p>
+                      <p *ngIf="chat?.message?.name?.length===25">...</p>
+                      <p class="extension">{{chat?.message?.extension}}</p>
+                    </span>
+                    <span class="size">{{chat?.message?.size}}</span>
+                  </span>
+                </span>
+                <span class="chat__bubble--internaltime" *ngIf="chat.messageType==='internal'">{{chat?.chatTime}}
+                </span>
+              </span>
+              <span dir="ltr" class="chat__time"
+                *ngIf="chat.messageType!=='internal' && chat.messageType!=='transfer'">{{chat?.chatTime}}</span>
+            </ng-container>
+          </li>
+        </span>
+      </ng-container>
+      <div class="chat__userLeft" *ngIf="client?.isSessionTimeout === true || client?.isSessionTimeout === false">
+        <span class="user_left" *ngIf="client?.isSessionTimeout === false">
+          User Left
+        </span>
+        <span class="session" *ngIf="client?.isSessionTimeout === true">
+          Session Timed Out
+        </span>
+      </div>
+    </perfect-scrollbar>
+  </ul>
+</div>

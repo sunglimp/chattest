@@ -1,0 +1,22 @@
+<div class="canned" *ngIf="showCannedList" (mousedown)="$event.stopPropagation()">
+  <app-no-records *ngIf="haveZeroRecords" class="notfound" [message]="'no responses found!'"></app-no-records>
+  <app-loader *ngIf="isLoading"></app-loader>
+  <perfect-scrollbar #listScroll>
+    <ul class="canned--list">
+      <li class="canned--response" *ngFor="let cannedResponse of shownResponses;let i=index" [ngClass]="{'canned--selected' : selectedIndex === i}"
+        (mousedown)="showResponse(i)" [id]="'cl__'+i">
+        <span title="cannedResponse.shortcut">{{cannedResponse.shortcut}}</span>
+      </li>
+    </ul>
+  </perfect-scrollbar>
+</div>
+<div class="canned canned--right" *ngIf="showResponses">
+  <perfect-scrollbar #responseScroll>
+    <ul class="canned--list">
+      <li class="canned--response responses" *ngFor="let response of shownResponses[selectedIndex]?.responses;let i=index"
+        [ngClass]="{'canned--selected' : selectedResponseIndex === i}" [id]="'cr__'+i" (mousedown)="clickResponse(i)">
+        <span title="cannedResponse.shortcut">{{response}}</span>
+      </li>
+    </ul>
+  </perfect-scrollbar>
+</div>

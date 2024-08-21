@@ -1,0 +1,13 @@
+{
+    "name": "surbo/translator",
+    "description": "You can create custom locale for application.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Arvind Gupta",
+            "email": "arvind.gupta@vfirst.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

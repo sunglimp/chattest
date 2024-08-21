@@ -1,0 +1,13 @@
+@import "../../../variables";
+.chat {
+    &__wrapper {
+        position: relative;
+        flex: 2;
+        margin: 0;
+        z-index: 0;
+        flex-direction: column;
+        padding: .8rem .8rem;
+        height: calc(100vh - 13rem);
+        overflow: hidden;
+    }
+}

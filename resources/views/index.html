@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>LiveChat</title>
+	<base href="/">
+	<link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+	<script src="/js/lib/jquery.min.js"></script>
+	<!--  <script src="/js/lib/main.js" async></script> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+
+</head>
+
+<body>
+	<div class="surbo-container">
+		<section class="nav-bar">
+			<div class="logo">
+				<img src="/images/logo_small.png" alt="logo" class="logo__img">
+			</div>
+			<ul class="menubar">
+				<li class="menubar__items menubar__items__nocollapse">
+					<a href="">
+						<img src="./images/dashboard.png" alt="">
+						<span>Dashboard</span>
+					</a>
+				</li>
+				<li class="menubar__items menubar__items__nocollapse  menubar__items-active">
+					<a href={{asset("organization/index")}}>
+						<img src={{asset("images/dashboard.png ")}}alt="">
+						<span>Organization List</span>
+					</a>
+				</li>
+				<li class="menubar__items menubar__items__nocollapse">
+					<a href={{asset("user/index")}}>
+						<img src="/images/dashboard.png" alt="">
+						<span>User List</span>
+					</a>
+				</li>
+				<li class="menubar__items menubar__items__nocollapse">
+					<a href="">
+						<img src="./images/dashboard.png" alt="">
+						<span>API List</span>
+					</a>
+				</li>
+			</ul>
+		</section>
+		<section class="main">
+			<header class="main__header">
+				<div class="header__text">
+					Chats
+				</div>
+
+				<div class="header__user">
+					<img src="./images/johndoe.jpeg" alt="" class="header__user-img">
+					<span class="header__user-name end_caret">John</span>
+				</div>
+				<div class="header__card">
+					<a class="header__card-container">
+						<img src="/images/user.jpeg" alt="image" class="header__card-img">
+					</a>
+					<div class="header__card-details">
+						<span class="header__card-name">John</span>
+						<span class="header__card-email">john@mailinator.com</span>
+					</div>
+					<a onclick="event.preventDefault();
+				                                                     document.getElementById('logout-form').submit();"
+						class="header__card-logout">LOG OUT</a>
+
+					<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+						@csrf
+					</form>
+				</div>
+				`
+			</header>
+			<app-root></app-root>
+		</section>
+	</div>
+	<script type="text/javascript" src="runtime.js"></script>
+	<script type="text/javascript" src="polyfills.js"></script>
+	<script type="text/javascript" src="styles.js"></script>
+	<script type="text/javascript" src="vendor.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+</body>
+
+</html>

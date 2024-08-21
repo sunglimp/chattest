@@ -1,0 +1,323 @@
+.popup {
+    &__container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10001;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+    }
+    &__wrapper {
+        width: 49rem;
+        background: #eff0f2;
+        border-radius: 0.5rem;
+        padding: 2rem 1.5rem 1rem 1.5rem;
+        position: relative;
+
+        &__heading {
+            color: $color-secondary;
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-family: "IBMPlexSans-Medium";
+        }
+    }
+    &__content {
+        font-size: 1.3rem;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        width: 100%;
+
+        &--wrap {
+            width: 45%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            margin: 1rem 0 0;
+
+            & label {
+                // margin-bottom: .5rem; causing issue in popups
+            }
+        }
+
+        &--fileupload {
+            width: 100%;
+            align-items: center;
+            margin: 2rem 0 1rem 0;
+        }
+
+        & a {
+            margin: 1rem;
+        }
+
+        & .dropdown,
+        & input[type="text"] {
+            height: 3rem;
+        }
+    }
+
+    &__permissions {
+        &--addtags {
+            display: flex;
+            position: relative;
+
+            & input {
+                width: 85%;
+            }
+
+            & button {
+                margin-left: -3px;
+                font-size: 1.2rem;
+                white-space: nowrap;
+            }
+        }
+
+        &--addedtags {
+            list-style: none;
+            display: inline-flex;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+            width: 100%;
+
+            & li {
+                display: inline-flex;
+                padding: 0.5rem 2rem 0.5rem 1rem;
+                margin: 0 0.5rem 0.5rem 0;
+                position: relative;
+                border-radius: 0.5rem;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.2rem;
+
+                cursor: pointer;
+                ffcca1 & span {
+                    max-width: 14rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                & i {
+                    position: absolute;
+                    right: 0.5rem;
+                    top: 0.8rem;
+                    font-size: 1rem;
+                }
+            }
+
+            .tag {
+                &-purple {
+                    color: #2b3f58;
+                    background-color: lighten(#2b3f58, 50%);
+                    border: 1px solid #2b3f58;
+                }
+                &-green {
+                    color: #1fc998;
+                    background-color: #a6ead5;
+                    border: 1px solid #1fc998;
+                }
+                &-red {
+                    color: #ea5455;
+                    background-color: #f5b3b4;
+                    border: 1px solid #ea5455;
+                }
+                &-yellow {
+                    color: #fbb03b;
+                    background-color: #fedfb1;
+                    border: 1px solid #fbb03b;
+                }
+                &-pink {
+                    color: #e93e8c;
+                    background-color: #f7b2d1;
+                    border: 1px solid #e93e8c;
+                }
+                &-blue {
+                    color: #428ccd;
+                    background-color: #b3d1eb;
+                    border: 1px solid #428ccd;
+                }
+                &-orange {
+                    color: #fd7e15;
+                    background-color: #ffcca1;
+                    border: 1px solid #fd7e15;
+                }
+            }
+        }
+        &--switch {
+            text-align: center;
+            padding: 5px 0px 20px 0px;
+            label {
+                input[name="tagType"] {
+                    opacity: 0;
+                }
+                input[name="tagType"] + span {
+                    border: 0px;
+                    -webkit-box-shadow: none;
+                    box-shadow: none;
+                    background: white;
+                    color: #ea5455;
+                    font-size: 13px;
+                    padding: 5px 15px;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+                input[name="tagType"]:checked + span {
+                    cursor: default;
+                    background: #ea5455;
+                    color: white;
+                }
+                &:nth-child(2) {
+                    position: relative;
+                    left: -15px;
+                }
+            }
+        }
+        &--checkbox {
+            text-align: center;
+            width: 100%;
+            padding: 10px 0px 0px 0px;
+            label.checkbox__container {
+                display: inline-block;
+                padding-left: 25px;
+                padding-right: 10px;
+            }
+            p.title {
+                letter-spacing: 1px;
+                width: 100%;
+                // padding: 0px 10px;
+                // display: inline-block;
+                font-size: 13px;
+                font-weight: 600;
+                margin: 0px 0px 10px 0px;
+            }
+            .checkmark {
+                border: 1px solid #b9b9b9;
+            }
+        }
+    }
+
+    &__timer {
+        &__heading {
+            text-align: center;
+            margin: 1rem 0rem 0rem 0;
+            font-family: "IBMPlexSans-Regular";
+            margin-bottom: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            color: $color-text-gray;
+
+            & span {
+                display: inline-flex;
+                font-family: "IBMPlexSans-Medium";
+                margin-bottom: 0.2rem;
+                font-size: 1.4rem;
+            }
+        }
+
+        &__content {
+            display: flex;
+            align-items: center;
+            margin: 2rem 2rem 0 2rem;
+            width: 60%;
+            justify-content: space-between;
+        }
+
+        &__wrapper {
+            display: flex;
+            width: 28%;
+            flex-direction: column;
+        }
+    }
+
+    &__unique-key {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2rem;
+
+        & .copyClipboard {
+            margin-left: -3rem;
+            cursor: pointer;
+            color: $color-text-gray;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover {
+                color: $color-primary;
+            }
+        }
+    }
+    &__full {
+        width: 100%;
+        .popup__timer__wrapper {
+            display: block;
+            float: left;
+        }
+    }
+    &__left__content {
+        width: 35%;
+        float: left;
+    }
+    &__right__content {
+        width: 65%;
+        float: left;
+    }
+}
+
+.arabic {
+    .popup {
+        &__left__content {
+            float: right;
+        }
+        &__right__content {
+            float: right;
+            .popup__timer__content {
+                margin-right: 0px;
+            }
+        }
+        .custom-input {
+            width: 50px;
+        }
+    }
+    .popup__full .popup__timer__wrapper {
+        float: right;
+    }
+}
+
+.popup__small {
+    width: 38rem;
+
+    &__content {
+        &--wrap {
+            width: 95%;
+            display: flex;
+            flex-direction: column;
+            margin: 1rem 0 0;
+            text-align: center;
+
+            & label {
+                font-size: 1.3rem;
+                color: $color-text-gray;
+            }
+
+            & .picture {
+                max-width: 10rem;
+                max-height: 10rem;
+                margin: 0 auto;
+                border-radius: 50%;
+                height: 10rem;
+                width: 10rem;
+            }
+        }
+    }
+}

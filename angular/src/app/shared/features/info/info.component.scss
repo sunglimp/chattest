@@ -1,0 +1,36 @@
+@import "../../../../variables";
+
+.info{
+  &__ul{
+    overflow-y: auto;
+  }
+
+    &__li{
+        border-bottom: $border-default;
+        font-size: 1.4rem;
+        padding: .4rem;
+        list-style: none;
+
+
+        & span{
+            color: $color-text-gray;
+        }
+    }
+}
+.infos{
+  &__li{
+    border-top: $border-default;
+    font-size: 1.4rem;
+    padding: .4rem;
+    list-style: none;
+
+    & span{
+      color: $color-text-gray;
+    }
+  }
+}
+
+
+.arabic{
+  text-align: right;
+}

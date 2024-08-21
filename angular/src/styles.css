@@ -1,0 +1,103 @@
+.custom-button {
+  padding: .8rem 1.2rem;
+}
+
+.custom-input {
+  font-size: 1.5rem;
+  border: 1px solid #d5d9de;
+  border-radius: 4px;
+  padding: 1rem;
+  color: #818c9b;
+  letter-spacing: .5px;
+  -webkit-box-shadow: 0.5rem 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+          box-shadow: 0.5rem 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.custom-input-1 {
+  padding: .6rem;
+}
+
+.slide__left {
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+}
+
+.ql-editor {
+  padding: 8px 2px !important;
+}
+
+.ql-toolbar.ql-snow + .ql-container.ql-snow {
+  border-top: 0px;
+  overflow: auto;
+  border: 0;
+  width: 98%;
+}
+
+.ql-editor.ql-blank::before {
+  left: 0px !important;
+}
+
+.ql-toolbar.ql-snow {
+  border: 1px solid #ccc;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: "IBMPlexSans-Regular";
+  padding: 8px;
+  border-radius: 0.5rem;
+  width: 98%;
+}
+
+.spin__preloader {
+  background: #ffffff;
+}
+
+.content__wrapper {
+  height: calc(100vh - 6rem);
+  margin: 1rem 0 0 0;
+  border: 0;
+  position: relative;
+  padding: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.md-drppicker {
+  font-family: "IBMPlexSans-Medium" !important;
+  width: 52.6rem !important;
+  margin-top: 2rem !important;
+  font-size: 1.1rem !important;
+  color: #2d4059 !important;
+}
+
+.md-drppicker td.in-range {
+  background-color: rgba(234, 84, 85, 0.2) !important;
+}
+
+.md-drppicker td.active,
+.md-drppicker td.active:hover {
+  background-color: #ea5455 !important;
+}
+
+.md-drppicker .btn {
+  background-color: #ea5455 !important;
+  background-color: #ea5455 !important;
+  border-radius: .5rem !important;
+  color: #ffffff !important;
+  font-family: var(--font-medium);
+  -webkit-box-shadow: 0.5rem 0.5rem 1.5rem rgba(234, 84, 85, 0.4) !important;
+          box-shadow: 0.5rem 0.5rem 1.5rem rgba(234, 84, 85, 0.4) !important;
+  padding: 0px 15px !important;
+}
+
+.emoji {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-image: url("/app/assets/images/emojis.png");
+  background-size: 5200%;
+  background-position: 0 0;
+  pointer-events: none;
+  vertical-align: middle;
+}
+/*# sourceMappingURL=styles.css.map */

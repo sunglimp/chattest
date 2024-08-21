@@ -1,0 +1,180 @@
+<div class="content__wrapper" [attr.dir]="chatService?.currentLanguage === 'ar' ? 'rtl' : 'ltr'">
+  <app-loader *ngIf="isLoading"></app-loader>
+  <app-close-popup *ngIf="showWarningOfflinePopup" (outputEvent)="warningOfflineOutput($event)" escClose
+    (escEvent)="showWarningOfflinePopup=false" [warningMessage]="warningMessage">
+  </app-close-popup>
+  <app-close-popup *ngIf="showWarningClosePopup" (outputEvent)="warningCloseOutput($event)" escClose
+    (escEvent)="showWarningClosePopup=false"
+    [warningMessage]="gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['msg_want_to_close_chat'] ? gettingLanguage['chat']['ui_elements_messages']['msg_want_to_close_chat'] : 'Do you really want to close this chat?'">
+  </app-close-popup>
+  <!--  [warningMessage]="'Do you really want to close this chat?'"-->
+
+  <div class="chat__container">
+    <div class="chat__list">
+      <div class="chat__list--header">
+        <span class="header">
+          <!--          Chats-->
+          {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['chats'] ? gettingLanguage['chat']['ui_elements_messages']['chats'] : 'Chats'}}
+        </span>
+        <button class="custom-button" [ngClass]="{'custom-button-green': agentStatus==='online'}"
+          (click)="changeAgentStatus(agentStatus)" [disabled]="isListLoading">
+          <!--          {{agentStatus }}-->
+          <span *ngIf="agentStatus == 'online'">
+            {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['online'] ? gettingLanguage['chat']['ui_elements_messages']['online'] : 'online'}}
+          </span>
+          <span *ngIf="agentStatus == 'offline'">
+            {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['offline'] ? gettingLanguage['chat']['ui_elements_messages']['offline'] : 'offline'}}
+          </span>
+        </button>
+      </div>
+      <div class="chat__list--body" [ngClass]="{'chat-height ':route == 'chat'}">
+        <app-loader *ngIf="isListLoading" [bgColor]="'#eff0f2'"></app-loader>
+        <div class="chat__list--category" [ngClass]="{'closed':chatHeightBool.active}"
+          (click)="toggleDropdown('active')">
+          <span>
+            <i class="fas fa-check"></i>
+            <!--             Active ({{activeCount}})-->
+            {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['active']  ? gettingLanguage['chat']['ui_elements_messages']['active'] : 'Active'}}
+            ({{activeCount}})
+          </span>
+          <i class="fas fa-angle-down" [class.arabic]="chatService?.currentLanguage === 'ar'"></i>
+        </div>
+        <ul class="chat__list--ul" [ngClass]="{'height-0':chatHeightBool.active}">
+          <perfect-scrollbar #scroll>
+            <span class="chat__infotext" *ngIf="activeCount<1">
+              <!--              No active chats!-->
+              {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['no_active_chats'] ? gettingLanguage['chat']['ui_elements_messages']['no_active_chats'] : '   No active chats!'}}
+            </span>
+
+            <ng-container *ngFor="let client of clients;let i = index">
+
+              <li class="chat__instances" *ngIf="client.status !== '1'"
+                [ngClass]="{'important':client.isImportant,'clicked': i == clickedChat,'disabledClient':client.hasLeft}"
+                (click)="onSelect(i)">
+                <div class="chat__info">
+                  <span *ngIf="client.sourceType != null">
+                    <span class="chat__circle" [ngClass]="{'facebook-chat' : client.sourceType}">
+                      <img src="/images/{{client.sourceType}}.png">
+                    </span>
+                  </span>
+                  <span *ngIf="client.sourceType == null">
+                    <span class="chat__circle" [ngClass]="{'widget-chat' : client.sourceType == null }">
+                      <img src="/images/Surbo.png">
+                    </span>
+                  </span>
+                  <div class="chat__details" [class.dynamicWidth]="client?.isHigh && client?.unreadMessagesCount > 0"
+                    [class.arabic]="chatService?.currentLanguage === 'ar'">
+                    <span class="chat__visitor"
+                      [ngClass]="{'chat__visitor--small' : client.unreadMessagesCount!==0 , 'facebook-chat' : client.sourceType == 'facebook'}">
+                      {{client.clientDisplayNumber | titlecase}}
+                      <span class="name" *ngIf="client?.clientDisplayName"> -
+                        {{ client?.clientDisplayName | titlecase }}</span>
+                    </span>
+                    <span class="chat__message" *ngIf="client.unreadMessagesCount!==0">{{client.undreadMessage}}</span>
+                  </div>
+
+                  <!--                  <span class="chat__circle" [style.backgroundColor]="colorCodes[client.clientId%26]">{{client.clientDisplayName-->
+                  <!--                   |-->
+                  <!--                   chatCircle | uppercase}}</span>-->
+                  <!--                  <div class="chat__details">-->
+                  <!--                    <span class="chat__visitor" [ngClass]="{'chat__visitor--small' : client.unreadMessagesCount!==0 }">{{client.clientDisplayName-->
+                  <!--                     | titlecase}}</span>-->
+                  <!--                    <span class="chat__message" *ngIf="client.unreadMessagesCount!==0">{{client.undreadMessage}}</span>-->
+                  <!--                  </div>-->
+
+                  <span class="chat__importance" *ngIf="client.channelType==='internal_comment' || client.isHigh">
+                    <!--                    high-->
+                    {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['high'] ? gettingLanguage['chat']['ui_elements_messages']['high'] : 'high'}}
+                  </span>
+                  <span class="chat__importance chat__importance--nums" *ngIf="client.unreadMessagesCount!==0">
+                    {{client.unreadMessagesCount}}
+                  </span>
+                  <span class="chat__close"
+                    (click)="chatClose($event,client.channelId,i, chatService?.userPermissions?.tagSettings?.tag_required, chatService?.taggedIds?.length)"><i
+                      class="fas fa-times"></i></span>
+                </div>
+              </li>
+            </ng-container>
+          </perfect-scrollbar>
+        </ul>
+        <div class="chat__list--category awaiting" [ngClass]="{'closed':chatHeightBool.awaiting}"
+          (click)="toggleDropdown('awaiting')">
+          <span>
+            <i class="far fa-clock"></i>
+            <!--            Awaiting ({{awaitingCount}})-->
+            {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['awaiting'] ? gettingLanguage['chat']['ui_elements_messages']['awaiting'] : 'Awaiting'}}
+            ({{awaitingCount}})
+
+          </span>
+          <i class="fas fa-angle-down" [class.arabic]="chatService?.currentLanguage === 'ar'"></i>
+        </div>
+        <ul class="chat__list--ul" [ngClass]="{'height-0':chatHeightBool.awaiting}">
+          <perfect-scrollbar>
+            <span class="chat__infotext" *ngIf="awaitingCount<1">
+              <!--              No awaiting chats!-->
+              {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['no_awaiting_chat'] ? gettingLanguage['chat']['ui_elements_messages']['no_awaiting_chat'] : 'No awaiting chats!'}}
+            </span>
+            <ng-container *ngFor="let client of clients;let i = index">
+
+              <li class="chat__instances" *ngIf="client.status === '1'"
+                [ngClass]="{'important':client.isImportant,'clicked': i == clickedChat,'disabledClient':client.hasLeft}"
+                (click)="onSelect(i)">
+                <div class="chat__info">
+                  <span *ngIf="client.sourceType != null">
+                    <span class="chat__circle" [ngClass]="{'widget-chat' : client.sourceType}">
+                      <img src="/images/{{client.sourceType}}.png">
+                    </span>
+                  </span>
+
+                  <span *ngIf="client.sourceType == null">
+                    <span class="chat__circle" [ngClass]="{'widget-chat' : client.sourceType == null}">
+                      <img src="/images/Surbo.png">
+                    </span>
+                  </span>
+                  <div class="chat__details" [class.dynamicWidth]="client?.isHigh && client?.unreadMessagesCount > 0"
+                    [class.arabic]="chatService?.currentLanguage === 'ar'">
+                    <span class="chat__visitor"
+                      [ngClass]="{'chat__visitor--small' : client.unreadMessagesCount!==0 , 'facebook-chat' : client.sourceType == 'facebook'}">
+                      {{client.clientDisplayNumber | titlecase}}
+                      <span class="name" *ngIf="client?.clientDisplayName"> -
+                        {{ client?.clientDisplayName | titlecase }}</span>
+                    </span>
+                    <span class="chat__message" *ngIf="client.unreadMessagesCount!==0">{{client.undreadMessage}}</span>
+                    <!--                  <span class="chat__circle" [style.backgroundColor]="colorCodes[client.clientId%26]">{{client.clientDisplayName-->
+                    <!--                  | chatCircle | uppercase}}</span>-->
+                    <!--                  <div class="chat__details">-->
+                    <!--                    <span class="chat__visitor" [ngClass]="{'chat__visitor--small' : client.unreadMessagesCount!==0 }">{{client.clientDisplayName-->
+                    <!--                    | titlecase}}</span>-->
+                    <!--                    <span class="chat__message" *ngIf="client.unreadMessagesCount!==0">{{client.undreadMessage}}</span>-->
+                  </div>
+
+                  <span class="chat__importance"
+                    *ngIf="client.channelType==='internal_comment' || client.isHigh">high</span>
+                  <span class="chat__importance chat__importance--nums" *ngIf="client.unreadMessagesCount!==0">
+                    {{client.unreadMessagesCount}}
+                  </span>
+                  <span class="chat__close"
+                    (click)="chatClose($event,client.channelId,i, false, chatService?.taggedIds?.length)"><i
+                      class="fas fa-times"></i></span>
+                </div>
+              </li>
+            </ng-container>
+          </perfect-scrollbar>
+        </ul>
+        <div class="chat__list--category queue"
+          *ngIf="chatService?.chatQueueCount != null || chatService?.chatQueueCount != undefined">
+          <span>
+            <i class="fas fa-clock"></i>
+            <!--            Awaiting ({{awaitingCount}})-->
+            {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['queue'] ? gettingLanguage['chat']['ui_elements_messages']['queue'] : 'Queue'}}
+            ({{ chatService?.chatQueueCount }})
+
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="chat__window">
+      <app-chat-window #chatWindow (hasRepliedEmitter)="hasReplied($event)"></app-chat-window>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+{
+	"authHost": "http://livechat.local",
+	"authEndpoint": "/broadcasting/auth",
+	"clients": [
+		{
+			"appId": "e13d00393b74c255",
+			"key": "60959dedf7868a8240f356aee25af63d"
+		}
+	],
+	"database": "redis",
+	"databaseConfig": {
+		"redis": {
+                    "port": "6379",
+                    "host": "127.0.0.1"
+                },
+                "publishPresence": true,
+		"sqlite": {
+			"databasePath": "/database/laravel-echo-server.sqlite"
+		}
+	},
+	"devMode": true,
+	"host": null,
+	"port": "6001",
+	"protocol": "http",
+	"socketio": {},
+	"sslCertPath": "",
+	"sslKeyPath": "",
+	"sslCertChainPath": "",
+	"sslPassphrase": "",
+	"subscribers": {
+		"http": true,
+		"redis": true
+	},
+	"apiOriginAllow": {
+		"allowCors": true,
+		"allowOrigin": "http://livechat.local",
+		"allowMethods": "GET, POST",
+		"allowHeaders": "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
+	}
+}

@@ -1,0 +1,9 @@
+<app-chats *ngIf="route === 'chat'" (mousedown)="closePopups()"></app-chats>
+<app-archive *ngIf="route === 'archive'" (mousedown)="closePopups()"></app-archive>
+<app-supervise *ngIf="route === 'supervise'"></app-supervise>
+<app-archive *ngIf="route === 'ticket'" (mousedown)="closePopups()"></app-archive>
+<app-ticket-status *ngIf="route === 'status'"></app-ticket-status>
+<app-archive *ngIf="route === 'banned-users'" (mousedown)="closePopups()"></app-archive>
+<app-lead-status *ngIf="route === 'lead-status'"></app-lead-status>
+<app-missed-chat *ngIf="route === 'missed'"></app-missed-chat>
+<app-canned *ngIf="route === 'canned'"></app-canned>

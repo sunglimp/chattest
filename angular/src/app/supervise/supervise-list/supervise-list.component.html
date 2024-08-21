@@ -1,0 +1,98 @@
+<div class="content__wrapper">
+  <!-- <app-loader ></app-loader> -->
+
+  <div class="chat__container">
+    <div class="chat__list">
+      <div class="chat__list--header">
+        <input type="text" placeholder="{{gettingLanguage &&  gettingLanguage['interpretation'] && gettingLanguage['interpretation']['chat']['ui_elements_messages']['search'] ? gettingLanguage['interpretation']['chat']['ui_elements_messages']['search'] : 'Search'}}
+" [(ngModel)]="searchKey" (keyup)="searchAgents()" class="custom-input custom-input-search"
+          [class.arabic]="chatService?.currentLanguage === 'ar'">
+      </div>
+      <div class="chat__list--body">
+        <ul class="chat__list--ul">
+          <perfect-scrollbar #scroll>
+            <li class="chat__instances chat__instances--agents" [ngClass]="{'active':agent.showClients}"
+              *ngFor="let agent of activeAgents">
+              <div class="chat__info chat__info--agents" (click)="agent.showClients=!agent.showClients">
+                <div class="chat__details" [class.arabic]="chatService?.currentLanguage === 'ar'">
+                  <span class="chat__visitor"
+                    [class.arabic]="chatService?.currentLanguage === 'ar'">{{agent.name | titlecase}}</span>
+                  <span class="chat__message">
+                    {{agent.role | titlecase}}
+                  </span>
+                </div>
+                <div class="chat__activemembers">
+                  <!--                  Active-->
+
+                  {{gettingLanguage &&  gettingLanguage['interpretation'] && gettingLanguage['interpretation']['chat']['ui_elements_messages']['active'] ? gettingLanguage['interpretation']['chat']['ui_elements_messages']['active'] : 'Active'}}
+                  ({{agent.clients}})</div>
+                <i class="fas fa-angle-right chat__fa-arrow" [class.arabic]="chatService?.currentLanguage === 'ar'"></i>
+              </div>
+              <ul class="chat__list--agents-ul" [ngClass]="{'height-0':!agent.showClients}">
+                <ng-container *ngFor="let client of shownClients;let i = index">
+                  <li class="chat__instances chat__instances--supervise" *ngIf="client.channelAgentId === agent.id"
+                    (click)="onSelect(i)"
+                    [ngClass]="{'clicked': client.channelId === clickedChat,'disabledClient':client.hasLeft}">
+                    <div class="chat__info">
+                      <!--                       <span *ngIf="client.sourceType == 'facebook'">-->
+                      <!--                     <span class="chat__circle"  [ngClass]="{'facebook-chat' : client.sourceType == 'facebook' }"  [style.backgroundColor]="colorCodes[client.clientId%26]" >-->
+                      <!--                      <img src="/images/facebook.png">-->
+                      <!--                    </span>-->
+                      <!--                  </span>-->
+                      <!--                      <span *ngIf="client.sourceType == 'twitter'">-->
+                      <!--                     <span class="chat__circle"  [ngClass]="{'twitter-chat' : client.sourceType == 'twitter' }"  [style.backgroundColor]="colorCodes[client.clientId%26]" >-->
+                      <!--                      <img src="/images/Twitter.png">-->
+                      <!--                    </span>-->
+                      <!--                  </span>-->
+                      <!--                      <span *ngIf="client.sourceType == 'whatsapp'">-->
+                      <!--                     <span class="chat__circle"  [ngClass]="{'whatsapp-chat' : client.sourceType == 'whatsapp' }"  [style.backgroundColor]="colorCodes[client.clientId%26]" >-->
+                      <!--                      <img src="/images/Whatsapp.png">-->
+                      <!--                    </span>-->
+                      <!--                  </span>-->
+                      <!--                      <span *ngIf="client.sourceType == 'web' || client.sourceType == ''">-->
+                      <!--                     <span class="chat__circle"  [ngClass]="{'web-chat' : client.sourceType == 'web' || client.sourceType == '' }"  [style.backgroundColor]="colorCodes[client.clientId%26]" >-->
+                      <!--                      <img src="/images/Surbo.png">-->
+                      <!--                    </span>-->
+                      <!--                  </span>-->
+                      <!--                      <span *ngIf="client.sourceType == 'widget'">-->
+                      <!--                     <span class="chat__circle"  [ngClass]="{'widget-chat' : client.sourceType == 'widget' }"  [style.backgroundColor]="colorCodes[client.clientId%26]" >-->
+                      <!--                      <img src="/images/Surbo.png">-->
+                      <!--                    </span>-->
+                      <!--                  </span>-->
+                      <span *ngIf="client.sourceType != null">
+                        <span class="chat__circle" [ngClass]="{'widget-chat' : client.sourceType }">
+                          <img src="/images/{{client.sourceType}}.png">
+                        </span>
+                      </span>
+                      <span *ngIf="client.sourceType == null">
+                        <span class="chat__circle" [ngClass]="{'widget-chat' : client.sourceType == null }">
+                          <img src="/images/Surbo.png">
+                        </span>
+                      </span>
+                      <!--                      <span class="chat__circle"-->
+                      <!--                        [style.backgroundColor]="colorCodes[client.clientId%26]">{{client.clientDisplayName | chatCircle | uppercase}}</span>-->
+                      <div class="chat__details" [class.arabic]="chatService?.currentLanguage === 'ar'">
+                        <span class="chat__visitor"
+                          [ngClass]="{'chat__visitor--small' : client.unreadMessagesCount!==0, 'arabic': chatService?.currentLanguage === 'ar' }">
+                          {{client.clientDisplayNumber | titlecase}}
+                          <span class="name" *ngIf="client?.clientDisplayName"> -
+                            {{ client?.clientDisplayName | titlecase }}</span>
+                        </span>
+                        <span class="chat__message"
+                          *ngIf="client.unreadMessagesCount!==0">{{client.undreadMessage}}</span>
+                      </div>
+                      <span class="chat__importance" *ngIf="client.channelType==='internal_comment'">high</span>
+                    </div>
+                  </li>
+                </ng-container>
+              </ul>
+            </li>
+          </perfect-scrollbar>
+        </ul>
+      </div>
+    </div>
+    <div class="chat__window">
+      <app-supervise-window [language]="gettingLanguageSupervise"></app-supervise-window>
+    </div>
+  </div>
+</div>

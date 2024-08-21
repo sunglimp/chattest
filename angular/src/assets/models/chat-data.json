@@ -1,0 +1,335 @@
+[
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 27,
+        "bucket_id": "bucket-visitor-calltw6mbmue",
+        "visitor": {
+            "id": 62,
+            "sender": "Rohit Singh",
+            "name": "",
+            "email": null,
+            "slug": "visitor-cAlLTW6mbmUe",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.77\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-26T17:56:15.352321+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-26T17:56:15.352321+05:30"
+            },
+            {
+                "text": "hi how are you? whats up?",
+                "created_on": "2018-11-26T17:57:16.378726+05:30",
+                "chat_side": "right"
+            },
+            {
+                "text": "hi how are you? whats up?hi how are you? whats up?hi how are you? whats up?",
+                "created_on": "2018-11-26T17:57:16.378726+05:30",
+                "chat_side": "right"
+            },
+            {
+                "text": "hi how are you? whats up?hi how are you? whats up?",
+                "created_on": "2018-11-26T17:57:16.378726+05:30",
+                "chat_side": "right"
+            },
+            {
+                "text": "hi how are you? whats up?hi how are you? whats up?",
+                "created_on": "2018-11-26T17:57:16.378726+05:30",
+                "chat_side": "left"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Ahsas Khan",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 1
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Unknown",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Unknown",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Unknown",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Unknown",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Unknown",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Unknown",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Unknown",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Unknown",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Unknown",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Unknown",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    },
+    {
+        "is_active": true,
+        "new_message": 0,
+        "id": 24,
+        "bucket_id": "bucket-visitor-ajkn9jax0bh4",
+        "visitor": {
+            "id": 57,
+            "sender": "Unknown",
+            "name": "",
+            "email": null,
+            "slug": "visitor-ajkn9JAX0bH4",
+            "identity": "{\"browser_name\":\"Chrome\",\"full_version\":\"70.0.3538.67\",\"major_version\":70,\"app_name\":\"Netscape\",\"user_agent\":\"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36\",\"user_os\":\"Linux\",\"local_ip\":\"192.168.7.169\"}",
+            "admin": null,
+            "chat_notifier_flag": 0
+        },
+        "created_on": "2018-11-12T16:08:13.145254+05:30",
+        "message": [
+            {
+                "text": "Bot :\nBot :hello",
+                "chat_side": "left",
+                "created_on": "2018-11-12T16:08:13.145254+05:30"
+            }
+        ]
+    }
+
+]

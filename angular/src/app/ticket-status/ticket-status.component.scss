@@ -1,0 +1,193 @@
+@import "../../variables";
+
+.ticket {
+  &__search {
+    margin-right: 1rem;
+    &.arabic {
+      margin-left: 1rem;
+      margin-right: unset;
+    }
+
+    & input {
+      height: 3.2rem;
+    }
+  }
+
+  &__filters {
+    width: 98%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    &--submit {
+      margin-right: auto;
+      &.arabic {
+        margin-right: unset;
+        margin-left: auto;
+      }
+    }
+  }
+
+  &__container {
+    height: calc(100% - 5rem);
+    display: flex;
+
+    & > div {
+      border: $border-default;
+      box-shadow: $box-shadow-default;
+      border-radius: $border-radius-default;
+      margin-right: 1rem;
+    }
+  }
+
+  &__details {
+    width: 35%;
+    flex: 35%;
+    padding: 1rem 1rem;
+
+    &--heading {
+      font-size: 1.9rem;
+      display: flex;
+      align-items: center;
+
+      &:not(:first-child) {
+        margin-top: 1.5rem;
+      }
+
+      & i {
+        margin-right: 0.5rem;
+        font-size: 1.6rem;
+        &.arabic {
+          margin-left: 0.5rem;
+          margin-right: unset;
+        }
+      }
+    }
+
+    &--info {
+      list-style-type: none;
+      font-size: 1.5rem;
+
+      & li:not(:last-child) {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    &--data {
+      margin-left: 2.2rem;
+      &.arabic {
+        margin-left: unset;
+        margin-right: 2.2rem;
+      }
+    }
+  }
+
+  &__tracker {
+    width: 65%;
+    flex: 65%;
+    padding: 1rem 1rem;
+
+    &--heading {
+      font-size: 1.9rem;
+      display: flex;
+      align-items: center;
+    }
+
+    &--date {
+      font-size: 1.8rem;
+      color: var(--color-green);
+      font-family: $font-medium;
+      margin-left: 1rem;
+
+      & i {
+        margin-right: 0.5rem;
+        font-size: 1.6rem;
+        &.arabic {
+          margin-left: 0.5rem;
+          margin-right: unset;
+        }
+      }
+    }
+
+    &--info {
+      list-style-type: none;
+      font-size: 1.5rem;
+      padding: 1rem 1rem;
+
+      & li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+
+        & #time {
+          font-family: $font-medium;
+          font-size: 1.8rem;
+        }
+
+        & #line {
+          border: 1px solid;
+          margin: 0 1rem;
+          height: 3rem;
+          display: inline-flex;
+          width: 0.2rem;
+        }
+
+        & #info {
+          font-size: 1.8rem;
+        }
+      }
+    }
+
+    &--data {
+      margin-left: 3rem;
+      &.arabic {
+        margin-left: unset;
+        margin-right: 3rem;
+      }
+    }
+  }
+}
+
+.warning-text {
+  font-size: 1.5rem;
+}
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #0043ff;
+}
+
+.fa-comments {
+  font-size: 16px;
+  color: #ccc;
+}
+.chat-remark {
+  display: inline-block;
+  margin-left: 50%;
+  cursor: pointer;
+  .remark {
+    transition: all 1s ease-in-out;
+    opacity: 1;
+    display: inline-block;
+    padding: 20px 30px;
+  }
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.ticket__tracker--data {
+  position: relative;
+  .icon {
+    position: absolute;
+    right: 10px;
+    .icon-hover-text {
+      min-width: 215px;
+      right: 20px;
+      bottom: -15px;
+      max-height: 75x;
+      overflow-y: scroll;
+    }
+  }
+}

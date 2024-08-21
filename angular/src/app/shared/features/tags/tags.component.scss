@@ -1,0 +1,54 @@
+@import "../../../../variables";
+.tag {
+    &__filter {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+        & button {
+            margin-left: -.5rem;
+        }
+	}
+	
+	&__container{
+		height: calc(100% - 10rem);
+		overflow: hidden;
+	}
+    &__tags {
+        display: flex;
+		flex-wrap: wrap;
+        & .tag {
+            color: white;
+            background-color: $color-primary-2;
+            border-radius: .4rem;
+            padding: .5rem 2rem .5rem 1rem;
+            margin-right: 1rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            max-width: 12rem;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            &:hover {
+                background-color: $color-text-gray-2;
+			}
+			
+			&__selected {
+				background-color: $color-primary;
+				&:hover{
+					background-color: $color-primary;
+				}
+			}
+        }
+        & i {
+            margin-left: .5rem;
+            font-size: 1.1rem;
+            position: absolute;
+            right: 5px;
+            top: 8px;
+            &:hover {
+                color: $color-secondary;
+            }
+        }
+    }
+}

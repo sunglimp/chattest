@@ -1,0 +1,19 @@
+<ng-container *ngIf="chats.length">
+  <div class="chat__wrapper">
+    <app-chat-box [startDate]='startDate' [endDate]='endDate' [chats]="chats" [client]="client" [language]="gettingLanguage" [chatsLoading]="chatsLoading" (openPopup)="openPopup($event)"></app-chat-box>
+  </div>
+</ng-container>
+
+<app-close-popup [language]="gettingLanguage" *ngIf="showWarningPopup" (outputEvent)="ticketDiscardOutput($event)" escClose
+                 (escEvent)="showWarningPopup=false" [warningMessage]="warningMessage">
+</app-close-popup>
+
+<app-tickets *ngIf="showTicketPopup" [chatId]="client.channelId" [Heading]="appId" [appId]="appId" (ticketEmitter)="ticketOutput($event)"
+               escClose (escEvent)="showTicketPopup=false">
+
+</app-tickets>
+
+<app-file-view *ngIf="showViewFilePopup"  (outputEvent)="closedPopup($event)" (escEvent)="showViewFilePopup=false">
+
+</app-file-view>
+

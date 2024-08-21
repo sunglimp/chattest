@@ -1,0 +1,62 @@
+@import "../../../../variables";
+
+.canned{
+    height: 21.5rem;
+    width:30%;
+    background: $color-white;
+    border-radius: $border-radius-default;
+    box-shadow: $box-shadow-default;
+    z-index: 1;
+    position: relative;
+    border: $border-default;
+    padding: .5rem 0 .5rem 0;
+    float: left;
+    overflow: hidden;
+    position: relative;
+
+    &:focus{
+        outline: 0;
+    }
+    
+    &--list{
+        list-style: none;
+    }
+
+    &--response{
+        padding: .5rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &:hover{
+            background-color: $color-border-gray-2;
+        }
+
+        & span{
+            max-width: 90%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        &::after{
+            content:'\f0a9';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 1rem;
+        }
+
+        &.responses::after{
+            content: '';
+        }
+    }
+
+    &--selected{
+        background-color: $color-border-gray-2;
+    }
+
+    &--right{
+        width:60%
+    }
+}

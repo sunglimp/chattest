@@ -1,0 +1,252 @@
+<div class="content__wrapper" [attr.dir]="chatService?.currentLanguage === 'ar' ? 'rtl' : 'ltr'">
+  <app-loader *ngIf="isLoading"></app-loader>
+  <div class="chat__filters">
+    <div class="dropdown select" tabindex="0" style="display: block;margin-right: 1rem"
+      (mousedown)="selectDropDown($event)" [ngClass]="statusDropdown ? 'open' : ''"
+      *ngIf="route =='archive' && showDropdownBool">
+      <span class="current">{{selectedMember?.value}}</span>
+      <div class="list">
+        <perfect-scrollbar>
+          <ul>
+            <li class="option" [ngClass]="{'selected': item === selectedMember}" *ngFor="let item of teamDropdown "
+              title="" (mousedown)="onChangReport($event,item)">
+              <span>{{item.value}}</span>
+            </li>
+          </ul>
+        </perfect-scrollbar>
+      </div>
+    </div>
+    <div class="chat__dropdown" style="margin-right: 1rem" *ngIf="isSuperAdmin">
+      <div class="dropdown select dropdown-search" (mousedown)="toggleDropdownOrg($event)"
+        [ngClass]="{'open':showDropdownOrg}" style="display: block" tabindex="0">
+        <span class="current">{{selectedOrg.name}}</span>
+
+        <div class="list">
+          <perfect-scrollbar>
+            <div class="dropdown-search-container">
+              <input type="text" (mousedown)="$event.stopPropagation()" #input (keyup)="searchOrg(input)"
+                class="custom-input" id="dropdown-search" placeholder="Search" autofocus><i class="fas fa-search"></i>
+            </div>
+            <ul>
+              <li class="option" [ngClass]="{'selected': org.id === selectedOrg.id}" (mousedown)="changeDropdownOrg(i)"
+                *ngFor="let org of shownOrganizations;let i =index">
+                <span>{{org.name}}</span></li>
+            </ul>
+          </perfect-scrollbar>
+        </div>
+      </div>
+    </div>
+    <div class="chat__search">
+      <div class="chat__search--dropdown" (mousedown)="showDropdown($event, searchTypes[selectedSearchType])">
+
+        <span *ngIf="isSuperAdmin">
+          {{searchTypes && searchTypes[selectedSearchType]}}
+        </span>
+        <!--        {{searchTypes && searchTypes[selectedSearchType]}}-->
+        <span *ngIf="!isSuperAdmin">
+          <span *ngIf="searchTypes && searchTypes[selectedSearchType] == 'Text'">
+            {{gettingLanguageArchive && gettingLanguageArchive['archive'] &&  gettingLanguageArchive['archive']['ui_elements_messages']['text'] ? gettingLanguageArchive['archive']['ui_elements_messages']['text'] : 'Text'}}
+          </span>
+          <span *ngIf="searchTypes && searchTypes[selectedSearchType] == 'Tags'">
+            {{gettingLanguageArchive && gettingLanguageArchive['archive'] &&  gettingLanguageArchive['archive']['ui_elements_messages']['tags'] ? gettingLanguageArchive['archive']['ui_elements_messages']['tags'] : 'Tags'}}
+          </span>
+          <span *ngIf="searchTypes && searchTypes[selectedSearchType] == 'Comment'">
+            {{gettingLanguageArchive && gettingLanguageArchive['archive'] &&  gettingLanguageArchive['archive']['ui_elements_messages']['comment'] ? gettingLanguageArchive['archive']['ui_elements_messages']['comment'] : 'Comment'}}
+          </span>
+        </span>
+
+        <i class="fa fa-angle-down btn-after" [class.arabic]="chatService?.currentLanguage === 'ar'"
+          aria-hidden="true"></i>
+        <ul class="chat__search--list" *ngIf="toggleDropdown">
+          <li *ngFor="let type of searchTypes; let i = index" [ngClass]="{'active':selectedSearchType === i}"
+            (mousedown)="changeSearchType(i)">
+            <!--            {{type | titlecase}}-->
+            <span *ngIf="isSuperAdmin">
+              {{type | titlecase}}
+            </span>
+            <span *ngIf="!isSuperAdmin">
+              <span *ngIf="type == 'Text'">
+                {{gettingLanguageArchive && gettingLanguageArchive['archive'] && gettingLanguageArchive['archive']['ui_elements_messages']['text'] ? gettingLanguageArchive['archive']['ui_elements_messages']['text'] : 'Text'}}
+              </span>
+              <span *ngIf="type == 'Tags'">
+                {{gettingLanguageArchive && gettingLanguageArchive['archive'] && gettingLanguageArchive['archive']['ui_elements_messages']['tags'] ? gettingLanguageArchive['archive']['ui_elements_messages']['tags'] : 'Tags'}}
+              </span>
+              <span *ngIf="type == 'Comment'">
+                {{gettingLanguageArchive && gettingLanguageArchive['archive'] && gettingLanguageArchive['archive']['ui_elements_messages']['comment'] ? gettingLanguageArchive['archive']['ui_elements_messages']['comment'] : 'Comment'}}
+              </span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <ng-container *ngIf="searchTypes[selectedSearchType] !== 'Tags'">
+        <input type="text" class="custom-input custom-input-search"
+          [class.arabic]="chatService?.currentLanguage === 'ar'" [(ngModel)]="searchFilter"
+          (keydown)="keydownSearch($event)">
+        <span class="chat__search--icon" [class.arabic]="chatService?.currentLanguage === 'ar'"
+          (mousedown)="filterData()"></span>
+      </ng-container>
+      <ng-container *ngIf="searchTypes[selectedSearchType] === 'Tags'">
+        <div id="select-tag" class="chat__search--select-container clickable" (mousedown)="handleTagsSelection($event)">
+          <span id="select-tag" class="clickable">
+            <ng-container *ngIf="selectedTagList?.length > 0">
+              Selected Tags ( {{ selectedTagList?.length }} )
+            </ng-container>
+            <ng-container *ngIf="selectedTagList?.length === 0">
+              Select Tags
+            </ng-container>
+          </span>
+          <ul class="chat__search--list clickable" *ngIf="showTagsDropdown">
+            <li *ngFor="let tag of tagList" class="clickable">
+              <label class="clickable" [class.arabic]="chatService?.currentLanguage === 'ar'">
+                <input class="clickable" type="checkbox" name="tag_id" value="{{tag?.id}}"
+                  (change)="updateTagArray($event, tag?.id)" [checked]="selectedTagList | checkTagSelection: tag?.id" />
+                <i class="fa fa-check fa-6 clickable" [class.arabic]="chatService?.currentLanguage === 'ar'"
+                  aria-hidden="true"></i>
+                <span class="clickable">
+                  {{ tag?.tag }}
+                </span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+    </div>
+    <div class="chat__calender">
+      <input class="chat__calender--picker" (keydown)="$event.preventDefault()" ngxDaterangepickerMd
+        placeholder="dd/mm/yyyy - dd/mm/yyyy" [autoApply]="true" [(ngModel)]="selectedDates" [autoApply]="true"
+        [locale]="{format: 'DD/MM/YYYY'}" (keydown)="clearCalender($event)">
+      <i class="fas fa-calendar-alt" [class.arabic]="chatService?.currentLanguage === 'ar'"></i>
+    </div>
+
+
+
+    <button class="custom-button chat__filters--submit" [class.arabic]="chatService?.currentLanguage === 'ar'"
+      (mousedown)="filterData()">
+      <!--      Submit-->
+      <span *ngIf="isSuperAdmin">
+        Submit
+      </span>
+      <span *ngIf="!isSuperAdmin">
+        {{gettingLanguageArchive && gettingLanguageArchive['archive'] && gettingLanguageArchive['archive']['ui_elements_messages']['submit'] ? gettingLanguageArchive['archive']['ui_elements_messages']['submit'] : 'Submit'}}
+      </span>
+    </button>
+    <i *ngIf="route === 'archive' && chatService?.userPermissions?.settings?.chat_download?.agent_wise_chat_download === 'true' && userInfo?.role_id < 5 && !haveZeroRecords"
+      title="Chat summary download" class="chat--file_excel_download fas fa-file-download" aria-hidden="true"
+      (click)="chatExcelDownload()"></i>
+
+    <i *ngIf="route === 'archive' && searchTypes[selectedSearchType] === 'Tags' && chatService?.userPermissions?.chatDownload"
+      title="Tag report download" class="fa fa-download chat__tag--download" aria-hidden="true"
+      (click)="chatTagDownload()"></i>
+
+    <span class="queue-count" *ngIf="chatService?.chatQueueCount != null || chatService?.chatQueueCount != undefined">
+      <span [ngClass]="{'hundred': chatService?.chatQueueCount < 100, 'thousand': chatService?.chatQueueCount > 100}">
+        {{ chatService?.chatQueueCount }}
+      </span>
+      <i class="fas fas fa-clock"></i>
+    </span>
+    <div class="chat__dayspicker mar-right" *ngIf="route!=='archive' && route!=='banned-users'">
+      <span *ngFor="let chat of Classification; let i = index" class="pad-span"
+        [ngClass]="{'chat__dayspicker--current': selectedItem == chat}" (click)="chatClassification($event, chat)">
+        <!--        {{chat}}-->
+        <span *ngIf="isSuperAdmin">
+          {{chat}}
+        </span>
+        <span *ngIf="!isSuperAdmin">
+          <span *ngIf="chat == 'Business'">
+            {{(gettingLanguageClassified && gettingLanguageClassified['business']) ? gettingLanguageClassified['business'] : 'Business'}}
+          </span>
+          <span *ngIf="chat == 'Services'">
+            {{(gettingLanguageClassified && gettingLanguageClassified['service']) ? gettingLanguageClassified['service'] : 'Service'}}
+          </span>
+        </span>
+      </span>
+    </div>
+    <div class="chat__dayspicker">
+      <span *ngFor="let day of days; let i = index" [ngClass]="{'chat__dayspicker--current': i === selectedDay}"
+        (click)="changeDays(i)" class="pad-span">
+        <span *ngIf="isSuperAdmin">
+          {{day}} Days
+        </span>
+        <span *ngIf="!isSuperAdmin">
+          {{day}}
+          {{gettingLanguageArchive && gettingLanguageArchive['archive'] && gettingLanguageArchive['archive']['ui_elements_messages']['days'] ? gettingLanguageArchive && gettingLanguageArchive['archive'] && gettingLanguageArchive['archive']['ui_elements_messages']['days'] : 'Days'}}
+        </span>
+      </span>
+    </div>
+  </div>
+  <div class="chat__container">
+    <app-no-records *ngIf="haveZeroRecords" class="notfound" [message]="'no records found!'"></app-no-records>
+    <div class="chat__list" *ngIf="!haveZeroRecords">
+      <div class="chat__list--header">
+        <span class="header" *ngIf="route==='archive'">
+          <!--          Archive-->
+          {{gettingLanguageArchive && gettingLanguageArchive['archive'] && gettingLanguageArchive['archive']['ui_elements_messages']['archive'] ? gettingLanguageArchive && gettingLanguageArchive['archive'] && gettingLanguageArchive['archive']['ui_elements_messages']['archive'] : 'Archive'}}
+
+        </span>
+        <span class="header" *ngIf="route==='ticket'">
+          <!--          Classified Chats-->
+          {{gettingLanguageArchive && gettingLanguageArchive['archive'] && gettingLanguageArchive['archive']['ui_elements_messages']['classified_chats'] ? gettingLanguageArchive && gettingLanguageArchive['archive'] && gettingLanguageArchive['archive']['ui_elements_messages']['classified_chats'] : 'Classified Chats'}}
+
+        </span>
+        <span class="header" *ngIf="route==='banned-users'">
+          <span *ngIf="isSuperAdmin">
+            Banned Users
+          </span>
+
+          <span *ngIf="!isSuperAdmin">
+            {{gettingLanguageArchive && gettingLanguageArchive['banned_users'] && gettingLanguageArchive['banned_users']['ui_elements_messages']['banned_users'] ?  gettingLanguageArchive['banned_users']['ui_elements_messages']['banned_users'] : 'Banned Users'}}
+
+          </span>
+        </span>
+
+      </div>
+      <div class="chat__list--body">
+        <ul class="chat__list--ul">
+          <perfect-scrollbar #scroll (psYReachEnd)="onScroll($event)">
+            <li class="chat__instances" *ngFor="let client of clients; let i = index" (click)="onSelect(i)"
+              [ngClass]="{'clicked': i == clickedChat}">
+              <div class="chat__info">
+                <!--                <span class="chat__circle" [style.backgroundColor]="colorCodes[client.clientId%26]">-->
+                <!--                  {{client.clientDisplayName | chatCircle | uppercase}}-->
+                <!--                </span>-->
+                <span *ngIf="client.sourceType != null" class="pad-span">
+                  <span class="chat__circle" [ngClass]="{'widget-chat' : client.sourceType}">
+                    <img src="/images/{{client.sourceType}}.png">
+                  </span>
+                </span>
+                <span *ngIf="client.sourceType == null" class="pad-span">
+                  <span class="chat__circle" [ngClass]="{'widget-chat' : client.sourceType == null}">
+                    <img src="/images/Surbo.png">
+                  </span>
+                </span>
+                <div class="chat__details" [class.arabic]="chatService?.currentLanguage === 'ar'">
+                  <span class="chat__visitor">
+                    {{client.clientDisplayNumber | titlecase}}
+                    <span class="name" *ngIf="client?.clientDisplayName"> -
+                      {{ client?.clientDisplayName | titlecase }}</span>
+                  </span>
+                  <span class="chat__message"
+                    [class.arabic]="chatService?.currentLanguage === 'ar'">{{client.chatDate}}</span>
+                </div>
+                <span class="chat__close" *ngIf="client.isTagged"><i class="fa fa-bookmark"></i></span>
+              </div>
+            </li>
+
+          </perfect-scrollbar>
+        </ul>
+      </div>
+    </div>
+    <div class="chat__window">
+      <app-archive-chat [startDate]="startDate" [language]="gettingLanguage" [endDate]="endDate"
+        [selectedType]="selectedItem"></app-archive-chat>
+    </div>
+  </div>
+</div>
+
+<div class="notifier" [ngClass]="{'notifier-show':notifier?.show, 'arabic': chatService?.currentLanguage === 'ar' }">
+  <span class="notifier__icon " [class.notifier__success]=" notifier?.iserror === false"
+    [class.notifier__warning]="notifier?.iserror === true" [class.arabic]="chatService?.currentLanguage === 'ar'">
+    <i class='fas '
+      [ngClass]="{'fa-times': notifier?.iserror === true, 'fa-check': notifier?.iserror === false}"></i></span>
+  <span class="notifier__text">{{notifier?.text}}</span>
+</div>

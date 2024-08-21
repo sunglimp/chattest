@@ -1,0 +1,24 @@
+<span class="tag__filter" [ngClass]="{animation__shake : error}" *ngIf="showAddTag">
+  <input type="text" class="custom-input custom-input-1" #tagInput
+    placeholder="{{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['type']}}"
+    (keyup)="$event.keyCode === 13 ? addTag() : ''">
+  <button class="custom-button custom-button-red" [class.arabic]="chatService?.currentLanguage === 'ar'" type="submit"
+    (click)="addTag()">{{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['add'] ?  gettingLanguage['chat']['ui_elements_messages']['add'] : 'Add'}}</button>
+</span>
+<span class="warning-text warning-text-disappear" *ngIf="error">{{errorText}}</span>
+<div class="tag__container">
+  <perfect-scrollbar #scroll>
+    <div class="tag__tags">
+      <ng-container *ngFor="let tag of tags;let i = index">
+        <span class="tag" [ngClass]="{'tag__selected':tag.isSelected}" [title]="tag.name" (click)="linkTag(i)">{{tag.name
+          }}
+          <i class="fas fa-times" *ngIf="tag.canDelete" (click)="deleteTag($event,i)"></i>
+        </span>
+      </ng-container>
+    </div>
+  </perfect-scrollbar>
+</div>
+
+<div class="spin__preloader" *ngIf="isLoading">
+  <div class="spin__loader"></div>
+</div>

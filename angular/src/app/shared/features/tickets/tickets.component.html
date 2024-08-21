@@ -1,0 +1,158 @@
+<div id="ticketPopup" class="popup popup__container show"
+    [class.minimizeTms]="chatService.ticketIsMinimized && this.textHeading == 'TMS'"
+    [class.minimizeTms]="this.textHeading == 'LQS' && chatService.lqsIsMinimized" (mousedown)="closePopup()">
+    <div class="ticket__wrapper" (mousedown)="$event.stopPropagation()">
+        <span class="ticket__header" *ngIf="this.textHeading == 'TMS' || this.Heading == '3'">
+            <!--            TICKET DETAILS-->
+            {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['ticket_details'] ? gettingLanguage['chat']['ui_elements_messages']['ticket_details'] : 'TICKET DETAILS'}}
+        </span>
+        <span class="ticket__header" *ngIf="this.textHeading == 'LQS' || this.Heading == '1'">
+            <!--            LEAD DETAILS-->
+            {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['lead_details'] ? gettingLanguage['chat']['ui_elements_messages']['lead_details'] : 'LEAD DETAILS'}}
+        </span>
+        <a class="min-btn" [class.arabic]="chatService?.currentLanguage === 'ar'"
+            (click)="minimizePopup(this.textHeading)"><i class="fas fa-minus"></i></a>
+        <a class="close-btn" [class.arabic]="chatService?.currentLanguage === 'ar'" (click)="closePopup()"><i
+                class="fas fa-times"></i></a>
+        <app-loader *ngIf="isLoading"></app-loader>
+        <form (ngSubmit)="onFormSubmit(f)" #f="ngForm" *ngIf="createTicket">
+            <div class="popup__content">
+                <ng-container *ngFor="let field of fields; let i = index;">
+                    <!-- Input Case -->
+                    <div class="popup__content--wrap " *ngIf="field?.isAttachment == '0'  && field?.isDropdown === '0'">
+                        <label>{{field?.displayName}}<span class=" astrick" *ngIf="field?.isRequired">*</span></label>
+                        <ng-container *ngIf="field?.displayName !== 'Mobile' && field?.displayName !== 'mobile'">
+                            <input type="text" class="custom-input form-control" name="{{field?.fieldName}}" ngModel
+                                [ngClass]="{'submitted':submitted,'has__error':field?.errors!==''}"
+                                [required]="field.isRequired" (keyup)="field.errors=''" />
+                        </ng-container>
+                        <ng-container *ngIf="field?.displayName === 'Mobile' || field?.displayName === 'mobile'">
+                            <ng-container *ngIf="showInternational">
+                                <international-phone-number2 class="international-phone-number2"
+                                    [ngClass]="{'submitted':submitted,'has__error':field?.errors!==''}" placeholder=""
+                                    [(defaultCountry)]="selectedCountry" [required]="field.isRequired"
+                                    [ngModel]="selectedNumber" name="{{field?.fieldName}}">
+                                </international-phone-number2>
+                            </ng-container>
+                        </ng-container>
+
+                        <ng-container *ngIf="field?.displayName === 'Mobile' || field?.displayName === 'mobile'">
+                            <p class="warning-text" style='display: none'
+                                *ngIf="field?.errors?.length<1 && (f.control.value[field.fieldName] | removeCountryCode)?.length < 1">
+                                {{field?.displayName}} number
+                                <!--                      is required.-->
+                                {{gettingLanguage &&  gettingLanguage['chat']['validation_messages']['is_required'] ? gettingLanguage['chat']['validation_messages']['is_required'] : 'is required.'}}
+                            </p>
+                            <p class="warning-text" style='display: none'
+                                *ngIf="field?.errors?.length < 1 &&  (f.control.value[field.fieldName] | removeCountryCode)?.length > 0">
+                                {{field?.displayName}} number is invalid
+                            </p>
+                        </ng-container>
+                        <ng-container *ngIf="field?.displayName !== 'Mobile' && field?.displayName !== 'mobile'">
+                            <p class="warning-text" style='display: none' *ngIf="field?.errors?.length<1">
+                                {{field?.displayName}}
+                                <!--                      is required.-->
+                                {{gettingLanguage &&  gettingLanguage['chat']['validation_messages']['is_required'] ? gettingLanguage['chat']['validation_messages']['is_required'] : 'is required.'}}
+                            </p>
+                        </ng-container>
+
+                        <p class="warning-text" *ngIf="field?.errors?.length>0">{{field.errors}}</p>
+                    </div>
+                    <!-- Dropdown Case -->
+                    <div class="popup__content--wrap " *ngIf="field?.isAttachment == '0' && field?.isDropdown === '1'">
+                        <label>{{field?.displayName}}<span class="astrick" *ngIf="field?.isRequired">*</span></label>
+                        {{ field?.dropdown_values }}
+                        <select class="custom-input custom-input-dropdown form-control" name="{{field?.fieldName}}"
+                            ngModel [ngClass]="{'submitted':submitted,'has__error':field?.errors!==''}"
+                            [required]="field.isRequired" (keyup)="field.errors=''">
+                            <option *ngFor="let value of field?.dropdownValues; let k  = index;" [value]="value">
+                                {{ value }}
+                            </option>
+                        </select>
+
+                        <p class="warning-text" style='display: none' *ngIf="field?.errors?.length<1">
+                            {{field?.displayName}}
+                            <!--                      is required.-->
+                            {{gettingLanguage &&  gettingLanguage['chat']['validation_messages']['is_required'] ? gettingLanguage['chat']['validation_messages']['is_required'] : 'is required.'}}
+                        </p>
+                        <p class="warning-text" *ngIf="field?.errors?.length>0">{{field.errors}}</p>
+                    </div>
+                    <!-- Attachment Case -->
+                    <div class="popup__content--wrap" *ngIf="field?.isAttachment == '1' && field?.isDropdown == '0'">
+                        <label class="mar-b-5">{{field?.displayName}} <span class="astrick"
+                                *ngIf="field?.isRequired">*</span></label>
+                        <ng-container *ngIf="field?.displayName !== 'Mobile' && field?.displayName !== 'mobile'">
+                            <input
+                                [ngClass]="{'submitted':submitted,'has__error': field?.errors !== '' || (submitted &&  f?.controls[fields[i]?.fieldName]?.invalid)}"
+                                type="text" class="file-upload-input custom-input form-control mar-b-5"
+                                name="{{ field?.fieldName}}" placeholder="Document description"
+                                [required]="field.isRequired" ngModel>
+                        </ng-container>
+                        <ng-container *ngIf="field?.displayName === 'Mobile' || field?.displayName === 'mobile'">
+                            <ng-container *ngIf="showInternational">
+                                <international-phone-number2 class="international-phone-number2"
+                                    [ngClass]="{'submitted':submitted,'has__error': field?.errors !== '' || (submitted &&  f?.controls[fields[i]?.fieldName]?.invalid)}"
+                                    placeholder="" [(defaultCountry)]="selectedCountry" [required]="field.isRequired"
+                                    [ngModel]="selectedNumber" name="{{field?.fieldName}}">
+                                </international-phone-number2>
+                            </ng-container>
+                        </ng-container>
+                        <input [ngClass]=" {'submitted':submitted,'has__error': field?.attachmenterrors !=='' ||
+                                (submitted && f?.controls[fields[i]?.fieldName + '_attachment' ]?.invalid)}"
+                            type="file" class="custom-file-input" (change)="onFileSelect($event, i, f)">
+                        <p style="font-size: 12px;">{{ f.controls[fields[i]?.fieldName + '_attachment']?.value }}
+                        </p>
+                        <input
+                            [ngClass]="{'submitted':submitted,'has__error':field?.attachmenterrors !=='' || (submitted &&  f?.controls[fields[i]?.fieldName + '_attachment']?.invalid) }"
+                            type="hidden" ngModel name="{{field?.fieldName + '_attachment'}}"
+                            [required]="field.isRequired" />
+                        <p class="warning-text" style='display: none' *ngIf="field?.errors?.length < 1">
+                            {{field?.displayName}}
+                            <!--                      is required.-->
+                            {{gettingLanguage &&  gettingLanguage['chat']['validation_messages']['is_required'] ? gettingLanguage['chat']['validation_messages']['is_required'] : 'is required.'}}
+                        </p>
+                        <p class="warning-text" *ngIf="field?.errors?.length > 0">{{field.errors}}</p>
+                        <p class="warning-text" *ngIf="field?.attachmenterrors?.length > 0">
+                            {{field.attachmenterrors}}
+                        </p>
+                    </div>
+                </ng-container>
+                <div class="popup__content--wrap" style="opacity: 0" *ngIf="fields?.length%2===1">
+                    <!--                    <label>hidden</label>-->
+                    <label>
+                        {{gettingLanguage &&  gettingLanguage['chat']['ui_elements_messages']['hidden'] ? gettingLanguage['chat']['ui_elements_messages']['hidden'] : 'hidden'}}</label>
+                    <input type="text" class="custom-input" />
+                </div>
+            </div>
+            <div class="buttons__all">
+                <button type="reset" class="custom-button custom-button-green" (mousedown)="closePopup()">
+                    {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['cancel'] ? gettingLanguage['chat']['ui_elements_messages']['cancel'] : 'Cancel'}}
+                </button>
+                <button type="submit" class="custom-button custom-button-blue">
+                    {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['submit'] ? gettingLanguage['chat']['ui_elements_messages']['submit'] : 'Submit'}}
+                </button>
+            </div>
+        </form>
+        <div class="ticket__success" *ngIf="success">
+            <i class="fas fa-ticket-alt"></i>
+            <span class="ticket__success--bold">{{ticketId}}</span>
+            <span class="ticket__success--info">{{msg}}</span>
+        </div>
+        <!--      <div class="ticket__success" *ngIf="success && this.textHeading == 'LQS'">-->
+        <!--        <i class="fas fa-ticket-alt"></i>-->
+        <!--        <span class="ticket__success&#45;&#45;bold">{{ticketId}}</span>-->
+        <!--        <span class="ticket__success&#45;&#45;info">Lead created successfully.</span>-->
+        <!--      </div>-->
+        <div class="ticket__success" *ngIf="failure">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span class="ticket__success--bold">
+                <!--              Unexpected Error!!-->
+                {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['fail_messages']['unexpected_error'] ? gettingLanguage['chat']['fail_messages']['unexpected_error'] : 'Unexpected Error!!'}}!!
+            </span>
+            <span class="ticket__success--info">
+                <!--              An error has occured.-->
+                {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['fail_messages']['error_occured'] ? gettingLanguage['chat']['fail_messages']['error_occured'] : 'An error has occured.'}}!!
+            </span>
+        </div>
+    </div>
+</div>

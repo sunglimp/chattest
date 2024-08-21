@@ -1,0 +1,160 @@
+
+.login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    &__container{
+        height: 100%;
+        min-height: 100%;
+        padding: 4rem 5rem;
+        background-image: url('/images/bg.png');
+        background-repeat: no-repeat;
+        background-position: 4rem bottom;
+        position: relative;
+    }
+
+    &__logo{
+        margin-bottom: 3rem;
+    }
+
+    &__content{
+        display: flex;
+    }
+
+    &__header{
+        display: flex;
+        flex-direction: column;
+        font-family: $font-extra-light;
+        flex: 2;
+        margin-right: 9rem;
+        // border: 1px solid;
+
+
+        &--main{
+            color: $color-secondary;
+            font-size: 4.5rem;
+        }
+
+        &--sub{
+            font-size: 2.1rem;
+        }
+    }
+
+    &__inputs{
+        border-radius: $border-radius-default;
+        padding: 1.2rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 7px 26px -4px rgba(0, 0, 0, 0.15);
+        margin-bottom: 1rem;
+        cursor: pointer;
+        border: 1px solid transparent;
+
+        &--icon{
+            margin-right: 2rem;
+            width: 2rem;
+            & i{
+                font-size: 2.5rem;
+            }
+        }
+
+        &--data{
+            display: flex;
+            flex-direction: column;
+
+            .login__label{
+                color: $color-secondary;
+                margin-bottom: 3px;
+                cursor: pointer;   
+                pointer-events: none;
+            }
+        }
+
+        &--tick{
+            margin-left: 2rem;
+
+            & span i{
+                font-size: 1rem;
+            }
+        }
+    }
+
+    &__features{
+        width: 100%;
+        display: flex;
+        padding: 0 2rem;
+        color: $color-text-gray;
+        font-size: 1.3rem;
+        align-items: center;
+
+        & a{
+            text-decoration: none;
+            color: $color-text-gray;
+        }
+
+        & span{
+            margin-right: auto;
+        }
+    }
+
+    &__button{
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+
+        & button{
+            font-size: 1.5rem;
+        }
+    }
+
+    &__footer{
+        position: absolute;
+        bottom: 4rem;
+        right: 5rem;
+        color: $color-text-gray;
+    }
+
+    &__forgot{
+        text-align: end;
+        flex: 1;
+    }
+}
+
+.focused{
+    border: 1px solid $color-primary;
+}
+
+.icon-login-button{
+    background: white;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 3px;
+
+    & i{
+        font-size: 9px;
+        color: $color-green;
+    }
+}
+
+.custom-checkbox{
+    position: relative;
+    cursor: pointer;
+    height: 2.1rem;
+    display: flex;
+    align-items: center;
+
+    & input{
+        opacity: 0;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        margin-right: 2.3rem;
+    }
+}

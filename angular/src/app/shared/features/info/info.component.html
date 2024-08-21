@@ -1,0 +1,17 @@
+<!--<ul class="info__ul" >-->
+<!--  <li class="info__li" *ngFor="let info of clientInfo">-->
+<!--    <span>{{info.keyName }}</span> :-->
+
+
+<!--    <span *ngIf="!isObject(info.keyValue)">{{info.keyValue}}</span>-->
+<!--    <span *ngIf="isObject(info.keyValue)">-->
+<!--     <ul class="info__ul">-->
+<!--       <li class="info__li" *ngFor="let infos of info.keyValue">-->
+<!--          <span>{{infos.keyName }}</span> : {{infos.keyValue}}-->
+<!--       </li>-->
+<!--     </ul>-->
+<!--    </span>-->
+
+<!--  </li>-->
+<!--</ul>-->
+<span [innerHTML]="infoHtml" [class.arabic]="chatService?.currentLanguage === 'ar'"></span>

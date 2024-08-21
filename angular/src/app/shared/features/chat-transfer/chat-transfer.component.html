@@ -1,0 +1,71 @@
+<div class="popup popup__container" style="display: flex" (click)="closePopup()">
+  <div class="popup__wrapper" style="width:25%" (click)="$event.stopPropagation()">
+    <a class="close-btn" [class.arabic]="chatService?.currentLanguage === 'ar'" (click)="closePopup()"><i
+        class="fas fa-times"></i></a>
+
+    <div class="stv-radio-tabs-wrapper">
+      <input type="radio" class="stv-radio-tab" name="groups" id="internal" checked="checked" />
+      <label for="internal" (click)="getInternalAgents()">
+        <!--        Internal-->
+        {{gettingLanguage && gettingLanguage['internal_transfer'] ? gettingLanguage['internal_transfer'] : 'Internal'}}
+
+      </label>
+      <input type="radio" class="stv-radio-tab" name="groups" id="external" />
+      <label for="external" (click)="getExternalGroups()">
+        <!--        External-->
+        {{gettingLanguage &&  gettingLanguage['external_transfer'] ? gettingLanguage['external_transfer'] : 'External'}}
+      </label>
+    </div>
+    <div class="group__list">
+      <div class="error-msg-chat-transfer">{{errorMessage}}</div>
+      <input type="text" class="custom-input custom-input-search" [class.arabic]="chatService?.currentLanguage === 'ar'"
+        [(ngModel)]="searchKey" (keyup)="search()" id="datatable-search"
+        placeholder="{{gettingLanguage && gettingLanguage['search_name'] ? gettingLanguage['search_name'] : 'Search by name'}}">
+
+      <div class="group__names">
+
+        <perfect-scrollbar>
+
+          <app-loader *ngIf="isLoading"></app-loader>
+          <ul *ngIf="showInternalAgents">
+            <app-no-records class="notfound" *ngIf="internalAgents.length<1" style="margin-top:1.5rem"
+              [message]="gettingLanguage['no_one_online'] ? gettingLanguage['no_one_online'] : 'No one is online!'">
+            </app-no-records>
+            <ng-container *ngFor="let agent of internalAgents;let i = index">
+              <li class="group__name" *ngIf="agent.showAgent" (click)="agentSelected(i)">
+                <i class="fas fa-check" *ngIf="agent.agentSelected"></i>
+                <span>{{agent.name | titlecase}}</span>
+              </li>
+            </ng-container>
+          </ul>
+          <ul *ngIf="!showInternalAgents">
+            <app-no-records class="notfound" *ngIf="externalGroups.length<1" style="margin-top:1.5rem"
+              [message]="gettingLanguage['no_one_online'] ? gettingLanguage['no_one_online'] : 'No one is online!'">
+            </app-no-records>
+            <ng-container *ngFor="let group of externalGroups;let i = index">
+              <li class="group__name" *ngIf="group.showGroup" (click)="groupSelected(i)">
+                <i class="fas fa-check" *ngIf="group.groupSelected"></i>
+                <span>{{group.groupName | titlecase}}</span>
+              </li>
+            </ng-container>
+          </ul>
+        </perfect-scrollbar>
+      </div>
+      <textarea class="custom-input custom-textarea" style="resize:none"
+        placeholder="Please add your comment here (300 characters)." [(ngModel)]="comment" maxlength="300"
+        *ngIf="!disabled" cols="30" rows="6"></textarea>
+    </div>
+
+    <div class="buttons__all">
+      <button type="reset" class="custom-button custom-button-green" id="cancel" (click)="closePopup()">
+        <!--        Cancel-->
+        {{gettingLanguage &&  gettingLanguage['cancel'] ? gettingLanguage['cancel'] : 'Cancel'}}
+      </button>
+      <button type="submit" class="custom-button custom-button-blue" (click)="transferChat()" [disabled]="disabled">
+        <!--        Transfer-->
+        {{gettingLanguage &&  gettingLanguage['transfer'] ?  gettingLanguage['transfer'] : 'Transfer'}}
+      </button>
+    </div>
+
+  </div>
+</div>

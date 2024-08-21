@@ -1,0 +1,66 @@
+@import "../../../../variables";
+
+.stv-radio-tabs-wrapper {
+    margin-top: .5rem;
+}
+
+.group{
+    &__list{
+        background-color: $color-white;
+        margin-top: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        border-radius: .5rem;
+
+    
+        & ul{
+            list-style-type: none;
+            padding: .3rem 1rem;
+
+            & li{
+                padding: .5rem;
+                font-size: 1.4rem;
+                cursor: pointer;
+                color: $color-secondary;
+
+                & span{
+                    color: $color-text-dark-gray;
+                    padding-left: 1rem;
+                    
+                    &:hover{
+                        color:$color-primary;
+                    }
+                }
+
+                &:not(:last-child){
+                    border-bottom: 1px solid $color-gray;
+                }
+            }
+        }
+    }
+
+    &__names{
+        height: 15rem;
+        overflow: auto;
+        width: 100%;
+    }
+}
+
+.custom-input-search {
+    background-size: 1.4rem;
+
+    &::placeholder{
+        font-size: 1.3rem;
+    }
+}
+
+.custom-textarea{
+    &::placeholder{
+        font-size: 1rem;
+    } 
+}
+.error-msg-chat-transfer{
+  color: #ea5455;
+}

@@ -1,0 +1,52 @@
+<div *ngIf="isShowCannedDetail">
+  <div class="canned-popup" (click)="onCancel()">
+    <div class="popup__wrapper" (click)="$event.stopPropagation()">
+      <a class="close-btn" (click)="onCancel()"><i class="fas fa-times"></i></a>
+      <div class="popup__wrapper__heading">{{header}}</div>
+      <form #cannedForm="ngForm" (ngSubmit)="addCannedResponse(cannedForm?.valid)">
+        <div class="popup__content">
+          <div class="canned__add--box">
+            <label for=""> {{gettingLanguage['canned_response']['ui_elements_messages']['shortcut']}}</label>
+            <input type="text" class="custom-input" maxlength="20" minlength="1" id="shortcut"
+              [(ngModel)]="cannedResponse.shortcut" name="shortcut" required #shortcut="ngModel"
+              [ngClass]="{'has-error': cannedForm?.submitted && shortcut?.invalid}">
+            <ng-container *ngIf="cannedForm?.submitted && shortcut?.invalid">
+              <p class="warning-text" *ngIf="shortcut?.errors.required">
+                {{gettingLanguage['canned_response']['validation_messages']['shortcut_required']}}
+              </p>
+              <p class="warning-text" *ngIf="shortcut?.errors.maxlength">
+                {{gettingLanguage['canned_response']['validation_messages']['shortcut_max_length']}}
+              </p>
+            </ng-container>
+          </div>
+          <div class="canned__add--box">
+            <label for="">{{gettingLanguage['canned_response']['ui_elements_messages']['response']}}</label>
+            <textarea class="custom-input" cols="10" rows="3" id="response" [(ngModel)]="cannedResponse.response"
+              name="response" required #response="ngModel"
+              [ngClass]="{'has-error': cannedForm?.submitted && response?.invalid}"></textarea>
+            <ng-container *ngIf="cannedForm?.submitted && response?.invalid">
+              <p class="warning-text" *ngIf="response?.errors.required">
+                {{gettingLanguage['canned_response']['validation_messages']['response_required']}}</p>
+            </ng-container>
+          </div>
+        </div>
+        <p class="warning-text" *ngIf="cannedError">
+          {{ cannedError }}
+        </p>
+        <div class="buttons__all">
+          <button class="custom-button custom-button-green" id="cancel" (click)="onCancel()">Cancel</button>
+          <button type="submit" class="custom-button custom-button-blue add-response-btn">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="notifier" [ngClass]="{'notifier-show':notifier?.show, 'arabic': chatService?.currentLanguage === 'ar' }">
+  <span class="notifier__icon " [class.notifier__success]=" notifier?.iserror === false"
+    [class.notifier__warning]="notifier?.iserror === true" [class.arabic]="chatService?.currentLanguage === 'ar'">
+    <i class='fas '
+      [ngClass]="{'fa-times': notifier?.iserror === true, 'fa-check': notifier?.iserror === false}"></i></span>
+  <span class="notifier__text">{{notifier?.text}}</span>
+</div>

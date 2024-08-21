@@ -1,0 +1,43 @@
+<div class="popup popup__container" id="delete__popup" style="display: flex" (click)="output(false)">
+  <div class="popup__wrapper popup__small" (click)="$event.stopPropagation()">
+    <a class="close-btn" [class.arabic]="chatService?.currentLanguage === 'ar'" (click)="output(false)"><i
+        class="fas fa-times"></i></a>
+    <div class="popup__content">
+      <div class="popup__content">
+        {{warningMessage}}
+        <!--                  <span *ngIf="warningMessage == 'Do you really want to close this chat?'">-->
+        <!--                     {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['service_ticket_confirm']}}-->
+        <!--                  </span>-->
+
+        <!--                  <span *ngIf="warningMessage == 'Do you want to change this ticket category to Service Ticket?'">-->
+        <!--                     {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['service_ticket_confirm']}}-->
+        <!--                  </span>-->
+        <!--                 <span  *ngIf="warningMessage == 'Do you really want to discard this chat?'">-->
+        <!--                     {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['discard_chat']}}-->
+        <!--                 </span>-->
+        <!--                  <span  *ngIf="warningMessage == 'Do you really want to ban this user?'">-->
+        <!--                    {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['ban_confirm_question']}}-->
+        <!--                </span>-->
+      </div>
+      <div class="buttons__all" *ngIf="!isSuperAdmin">
+        <button class="custom-button custom-button-primary" (click)="output(true)">
+          {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['yes'] ? gettingLanguage['chat']['ui_elements_messages']['yes'] : 'Yes'}}
+
+        </button>
+        <button class="custom-button" (click)="output(false)">
+          <!--                No-->
+          {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['no'] ? gettingLanguage['chat']['ui_elements_messages']['no'] : 'No'}}
+
+        </button>
+      </div>
+      <div class="buttons__all" *ngIf="isSuperAdmin">
+        <button class="custom-button custom-button-primary" (click)="output(true)">
+          Yes
+        </button>
+        <button class="custom-button" (click)="output(false)">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

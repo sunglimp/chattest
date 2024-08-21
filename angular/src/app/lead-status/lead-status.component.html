@@ -1,0 +1,111 @@
+<div class="content__wrapper">
+  <div class="ticket__filters">
+    <div class="ticket__search" [class.arabic]="chatService?.currentLanguage === 'ar'">
+      <input type="text" class="custom-input custom-input-search" [class.arabic]="chatService?.currentLanguage === 'ar'"
+        #searchField (keyup)="search($event, searchField)">
+      <span class="ticket__search--icon"></span>
+    </div>
+    <button class="custom-button ticket__filters--submit" [class.arabic]="chatService?.currentLanguage === 'ar'"
+      (click)="getTicketStatus(searchField)">
+      <!--      Search-->
+      {{gettingLanguage && gettingLanguage['search'] ? gettingLanguage['search'] : 'Search' }}
+    </button>
+  </div>
+  <span class="warning-text" *ngIf="showError">
+    <!--No details found!-->
+    {{responseMessage}}
+  </span>
+  <app-loader *ngIf="isLoading"></app-loader>
+  <div class="ticket__container" *ngIf="showDetails">
+    <div class="ticket__details">
+      <perfect-scrollbar>
+        <ul class="ticket__details--info ">
+          <ng-container *ngFor="let detail of details; let i = index;">
+            <li class="ticket__details--heading" [style.color]=[detail.color] *ngIf="detail.type === 'heading'"><i
+                class="fas fa-crosshairs" [class.arabic]="chatService?.currentLanguage === 'ar'"></i>
+              <!--              {{detail.key | removeUnderscore | titlecase}}-->
+              <span *ngIf="!gettingLanguage">
+                {{detail.key | removeUnderscore | titlecase}}
+              </span>
+              <span *ngIf="gettingLanguage">
+                <span *ngIf="detail.key == 'basic-details'">
+                  {{gettingLanguage['basic_details'] ?  gettingLanguage['basic_details'] : 'Basic Details'}}
+                </span>
+                <span *ngIf="detail.key == 'contact-detail'">
+                  {{gettingLanguage['contact_detail'] ?  gettingLanguage['contact_detail'] : 'Contact Detail'}}
+                </span>
+                <span *ngIf="detail.key == 'professional-detail'">
+                  {{gettingLanguage['professional_detail'] ?  gettingLanguage['professional_detail']  : 'Professional Contact Detail'}}
+                </span>
+                <span *ngIf="detail.key == 'lead-detail'">
+                  {{gettingLanguage['lead_details'] ?  gettingLanguage['lead_details'] : 'Lead Details'}}
+                </span>
+                <span *ngIf="detail.key == 'location-detail'">
+                  {{gettingLanguage['location_detail'] ?  gettingLanguage['location_detail'] : 'Location Detail'}}
+                </span>
+                <span *ngIf="detail.key == 'other'">
+                  {{gettingLanguage['other'] ?  gettingLanguage['other'] : 'Other'}}
+                </span>
+              </span>
+
+            </li>
+            <li *ngIf="detail.type === 'value'" class='ticket__details--data abey'
+              [class.arabic]="chatService?.currentLanguage === 'ar'">
+              {{detail.key | removeUnderscore | titlecase}}:
+
+              <ng-container *ngIf="detail?.value | checkForAttachmentPipe">
+                <!-- <a class="link" (click)="downloadViewAttachment(i, detail?.value[0].filename)">
+                  {{ detail?.value[0].filename }}
+                </a> -->
+                <a class="link" target="_blank" [attr.href]="detail?.value[0]?.file_path">
+                  {{ detail?.value[0]?.filename }}
+                </a>
+              </ng-container>
+              <ng-container *ngIf="!(detail?.value | checkForAttachmentPipe)">
+                {{ detail?.value }}
+              </ng-container>
+            </li>
+          </ng-container>
+          <li class="ticket__details--heading" [style.color]="'#ea5455'"><i class="fas fa-crosshairs"
+              [class.arabic]="chatService?.currentLanguage === 'ar'"></i>
+            <!--            Lead Status-->
+            {{gettingLanguage && gettingLanguage['lead_status'] ? gettingLanguage['lead_status'] : 'Lead Status' }}
+          </li>
+          <li class='ticket__details--data' [class.arabic]="chatService?.currentLanguage === 'ar'">
+            {{'Status: ' + ticketStatus}}
+          </li>
+        </ul>
+      </perfect-scrollbar>
+    </div>
+    <div class="ticket__tracker">
+      <span class="ticket__details--heading color-blue"><i class="fas fa-list-ul"
+          [class.arabic]="chatService?.currentLanguage === 'ar'"></i>
+        <!--        Activity Tracker-->
+        {{gettingLanguage  && gettingLanguage['activity_tracker'] ?  gettingLanguage['activity_tracker']: 'Activity Tracker' }}
+      </span>
+      <perfect-scrollbar>
+        <ul class="ticket__tracker--info" [class.arabic]="chatService?.currentLanguage === 'ar'">
+          <ng-container *ngFor="let activity of activities; let i = index;">
+            <li class="ticket__tracker--date" *ngIf="activity.type === 'date'"><i class="far fa-calendar"
+                [class.arabic]="chatService?.currentLanguage === 'ar'"></i>
+              {{activity.key}}</li>
+            <li *ngIf="activity.type === 'time'" class='ticket__tracker--data'
+              [class.arabic]="chatService?.currentLanguage === 'ar'">
+              <span id="time">{{activity.key}}</span>
+              <span id="line" [style.color]=[activity.color] [style.backgroundColor]=[activity.color]></span>
+              <span id='info'>{{activity.value}}</span>
+              <span class="icon icon--accepted popup-btn test offline-query-action"
+                *ngIf="activity?.remarks?.length > 0" [attr.title]="hoverText" (mouseover)="makeText(i)">
+                <i class="fa fa-comments" aria-hidden="true" [attr.title]="hoverText"></i>
+              </span>
+            </li>
+          </ng-container>
+        </ul>
+      </perfect-scrollbar>
+    </div>
+  </div>
+</div>
+
+<!-- <app-file-view *ngIf="showViewFilePopup" (outputEvent)="closedPopup($event)" (escEvent)="showViewFilePopup=false">
+
+</app-file-view> -->

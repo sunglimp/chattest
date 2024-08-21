@@ -1,0 +1,59 @@
+@import "../../../../variables";
+
+.cr-container{
+    display: flex;
+}
+
+.agents{
+    height: 21.5rem;
+    width: 27%;
+    background: $color-white;
+    border-radius: $border-radius-default;
+    box-shadow: $box-shadow-default;
+    z-index: 1;
+    position: relative;
+    border: $border-default;
+    padding: .5rem 0 .5rem 0;
+    
+    &:focus{
+        outline: 0;
+    }
+    
+    &--list{
+        list-style: none;
+    }
+
+    &--detail{
+        padding: .5rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &:hover{
+            background-color: $color-border-gray-2;
+        }
+
+        & span{
+            max-width: 90%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    }
+
+    &--selected{
+        background-color: $color-border-gray-2;
+    }
+
+    
+
+    &--image{
+        max-width: 3rem;
+        max-height: 3rem;
+        height: 3rem;
+        width: 3rem;
+        border-radius: 50%;
+        margin-right: 1rem;
+    }
+}

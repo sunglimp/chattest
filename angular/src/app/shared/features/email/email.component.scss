@@ -1,0 +1,233 @@
+@import "../../../../variables";
+.custom-input {
+    border: none;
+    border-bottom: 1px solid #ced4da;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin-left: .5rem;
+    margin-top: .5rem;
+    &:focus {
+        box-shadow: none;
+    }
+    &-hidden {
+        &:focus {
+            box-shadow: none;
+        }
+    }
+    &-email {
+        border-bottom: 0;
+    }
+}
+
+.email {
+    &__wrapper {
+        background: $color-white;
+        border-radius: $border-radius-default;
+        border: $border-default;
+        width: 90%;
+        height: 85%;
+        position: relative;
+    }
+    &__header {
+        color: $color-secondary;
+        font-family: $font-semi-bold;
+        font-size: 1.5rem;
+        display: inline-block;
+        padding: 2rem 1rem;
+    }
+    &__container {
+        position: relative;
+        display: flex;
+        border-bottom: 1px solid $color-border-gray-2;
+        cursor: text;
+        align-items: flex-end;
+        min-height: 3.5rem;
+        max-height: 10rem;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-bottom: 8px
+    }
+    &__label {
+        font-family: $font-semi-bold;
+        color: $color-text-gray;
+        padding-left: 1rem;
+        font-size: 1.4rem;
+        &.arabic{
+            padding-right: 1rem;
+        }
+    }
+    &__flex {
+        flex: 2;
+        min-height: 3.5rem;
+        display: flex;
+        align-items: flex-end;
+    }
+    &__cc {
+        display: inline-block;
+        align-self: flex-end;
+        position: relative;
+        bottom: .1rem;
+        padding: 0 1rem;
+        & span {
+            cursor: pointer;
+            font-size: 1.4rem;
+            margin-left: .4rem;
+            color: $color-text-disabled;
+            font-family: $font-medium;
+            padding: .3rem;
+            &:hover {
+                color: $color-secondary;
+            }
+        }
+    }
+    &__scroll{
+        overflow-y: auto;
+    }
+    &__quills {
+        margin-top: 1rem;
+        height: calc(100vh - 31rem);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        width:100%;
+        padding: 0 1rem;
+
+        &--cc{
+            height: calc(100vh - 35rem);
+        }
+
+        &--bcc{
+            height: calc(100vh - 40rem);
+        }
+    }
+    &__texts {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 2;
+        align-items: flex-end;
+        padding-right: 1.5rem;
+        & .email__text {
+            cursor: pointer;
+            background-color: $color-primary;
+            padding: 0.3rem 2rem;
+            border-radius: .5rem;
+            position: relative;
+            color: $color-white;
+            margin-left: .5rem;
+            margin-top: .5rem;
+            height: 2.7rem;
+            font-family: $font-semi-bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            & div {
+                display: inline-block;
+                max-width: 22rem;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            &:hover {
+                & .fa-times {
+                    color: $color-text-disabled;
+                }
+            }
+            & .fa-times {
+                position: absolute;
+                right: .5rem;
+                font-size: 1.4rem;
+                top: 7px;
+                color: $color-primary;
+                &:hover {
+                    color: $color-secondary;
+                }
+                &.arabic{
+                    right: unset;
+                    left: .5rem;
+                }
+            }
+        }
+    }
+    &__attachments {
+        display: flex;
+        flex-wrap: wrap;
+        &--box {
+            background-color: $color-bg-gray;
+            padding: .8rem 3rem .8rem 1rem;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            margin-right: 1rem;
+            position: relative;
+            border-radius: $border-radius-default;
+            font-family: $font-medium;
+            display: flex;
+            align-items: center;
+            & .fileicon{
+                font-size: 2.6rem;
+                margin-right: 1rem;
+            }
+            & .fa-times{
+                position: absolute;
+                right: 0.5rem;
+                top: 18px;
+                font-size: 1.3rem;
+                color: $color-text-disabled;
+                &:hover {
+                    color: $color-secondary;
+                }
+                &.arabic{
+                    right: unset;
+                    left: .5rem;
+                }
+            }
+        }
+        &--filename{
+            text-overflow: ellipsis;
+            max-width: 38rem;
+            white-space: nowrap;
+            overflow: hidden;
+            & span{
+                display: block;
+                font-size: 1.1rem;
+                font-family: $font-regular;
+            }
+        }
+    }
+    &__bottom {
+        position: absolute;
+        bottom: 1rem;
+        display: flex;
+        align-items: center;
+        left: 0;
+        right: 0;
+        padding: 0 2rem;
+        &--files {
+            margin-right: auto;
+            font-size: 1.5rem;
+            cursor: pointer;
+            &.arabic{
+                margin-right: unset;
+                margin-left: auto;
+            }
+            & input {
+                display: none;
+            }
+            &:hover {
+                color: $color-secondary;
+            }
+        }
+        &--attach {
+            margin-right: 1rem;
+            font-size: 1.9rem;
+            transform: rotate(90deg);
+        }
+    }
+
+}
+
+
+.hide{
+    display: none;
+}
+

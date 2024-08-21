@@ -1,0 +1,66 @@
+.logo {
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15rem;
+}
+
+.menubar {
+    list-style-type: none;
+    font-size: 1.55rem;
+    position: relative;
+    cursor: pointer;
+    height: 68vh;
+    overflow-y: auto;
+    & {
+        scrollbar-color: #afafaf #C2D2E4;
+        scrollbar-width: thin;
+    }
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 8px;
+        background-color: #eff0f2;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #afafaf; 
+    }
+    &__items {
+        color: $color-primary;
+        & a {
+            width: 100%;
+            display: -webkit-flex;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            text-decoration: none;
+            color: inherit;
+            &>img {
+                padding-left: 2rem;
+                padding-right: 1rem;
+                z-index: 2;
+                object-fit: contain;
+                height: 21px;
+                max-width: 100%;
+            }
+            & span {
+                display: -webkit-flex;
+                display: flex;
+                padding: 1.8rem 0;
+                z-index: 2;
+                transition: none;
+            }
+            &:hover {
+                background-color: $color-bg-gray;
+            }
+        }
+        &__nocollapse span::after {
+            display: none;
+        }
+        &-active {
+            background-color: $color-bg-gray;
+        }
+    }
+}

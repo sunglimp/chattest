@@ -1,0 +1,76 @@
+<div class="popup popup__container file-view-popup" style="display: flex" (click)="output(false)">
+  <div class="file-view">
+    <div class="popup__wrapper" (click)="$event.stopPropagation()">
+      <div class="popup-header">
+        <div class="left-head">
+          <span class="col-md-3"><i class="fa fa-file-pdf-o fa-6"></i>
+            {{selectedFileData?.file + '.' + selectedFileData?.extension }}</span>
+        </div>
+        <div class="right-head">
+
+          <span *ngIf="botChat" (click)="downloadContent(selectedFileData?.index, selectedFileData)"><i
+              class="fa fa-download"></i>
+            {{gettingLanguage && gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['download'] ?  gettingLanguage['chat']['ui_elements_messages']['download'] : 'Download'}}</span>
+          <span *ngIf="!botChat" (click)="downloadAttachment(selectedFileData?.index, selectedFileData?.hash)"><i
+              class="fa fa-download"></i>
+            {{gettingLanguage && gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['download'] ?  gettingLanguage['chat']['ui_elements_messages']['download'] : 'Download'}}</span>
+          <span *ngIf="this.printButton" (click)="printContent();"><i class="fa fa-print"></i>
+            {{gettingLanguage && gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['print'] ? gettingLanguage['chat']['ui_elements_messages']['print'] : 'Print'}}</span>
+          <span (click)="output(false)" class="padding-right"><i class="fa fa-times"></i>
+            {{gettingLanguage && gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['close'] ? gettingLanguage['chat']['ui_elements_messages']['close'] : 'Close'}}</span>
+        </div>
+      </div>
+      <a class="close-btn" [class.arabic]="chatService?.currentLanguage === 'ar'"></a>
+      <div class="popup__content">
+        <div class="popup__content" id="file-content">
+          <span *ngIf="!this.firefoxBrowser && videoPreViewAvailable" class="video-preview-section">
+            <span *ngIf="videoPreViewAvailable">
+              <video width="400" controls autoplay preload="auto">
+                <source [src]="fileURL" type="video/mp4" autoplay>
+              </video>
+            </span>
+          </span>
+
+          <span *ngIf="this.firefoxBrowser && videoPreViewAvailable" class="video-preview-section">
+            <span *ngIf="selectedFileData?.extension == 'webm'">
+              <video width="400" controls autoplay preload="auto">
+                <source [src]="fileURL" type="video/webm" autoplay>
+              </video>
+            </span>
+            <span *ngIf="selectedFileData?.extension == 'mov'">
+              <video width="400" controls autoplay preload="auto">
+                <source [src]="fileURL" type="video/mp4">
+              </video>
+            </span>
+          </span>
+
+          <span *ngIf="audioPreViewAvailable && this.firefoxBrowser" class="audio-preview-section">
+            <audio controls>
+              <source [src]="fileURL" type="audio/ogg">
+              <source [src]="fileURL" type="audio/mpeg">
+              <source [src]="fileURL" type="audio/wav">
+            </audio>
+          </span>
+          <span *ngIf="audioPreViewAvailable && !this.firefoxBrowser" class="audio-preview-section">
+            <div>
+              <audio controls>
+                <source [src]="fileURL" type="{{selectedFileData?.type }}">
+              </audio>
+            </div>
+          </span>
+          <span *ngIf="noPreViewAvailable" class="no-preview">
+            <div class="image-section">
+              <i class="fa  fa-file"></i>
+            </div>
+            <div class="no-preview-text">
+              <span
+                class="msg-no-preview">{{gettingLanguage && gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['no_preview'] ? gettingLanguage['chat']['ui_elements_messages']['no_preview'] : 'No Preview Available'}}</span><br>
+              <span
+                class="text-download">{{gettingLanguage && gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['msg_download_file'] ? gettingLanguage['chat']['ui_elements_messages']['msg_download_file'] : 'Download this file or use one of the apps you have installed to open it.'}}</span>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

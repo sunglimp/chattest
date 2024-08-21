@@ -1,0 +1,144 @@
+<div class="popup popup__container show" [ngClass]="{'hide':hideEmail}">
+  <div class="email__wrapper">
+    <span class="email__header" [class.arabic]="chatService?.currentLanguage === 'ar'">
+      <!--      COMPOSE EMAIL-->
+      {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['compose_email'] ? gettingLanguage['chat']['ui_elements_messages']['compose_email'] : ' COMPOSE EMAIL'}}
+    </span>
+    <a class="close-btn" [class.arabic]="chatService?.currentLanguage === 'ar'" (click)="closePopup()"><i
+        class="fas fa-times"></i></a>
+
+    <div class="email__container">
+      <label class="email__label" [class.arabic]="chatService?.currentLanguage === 'ar'">
+        {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['to_mail'] ? gettingLanguage['chat']['ui_elements_messages']['to_mail'] : 'Tofgfg'}}</label>
+      <div class="email__flex" (click)="emailsClicked('to')">
+        <perfect-scrollbar style="max-height: 6rem" #toScroll>
+          <div class="email__texts">
+            <span class="email__text" *ngFor="let email of emails; let i = index">
+              <div>{{email}}</div>
+              <i class="fas fa-times" (click)="deleteEmail('to',i)"></i>
+            </span>
+            <span>
+              <input type="text" name="toEmail" #toEmail autocomplete="off" (keydown)="toEmailKeydown('to',$event)"
+                class="custom-input custom-input-email" (blur)="emailBlurred('to')" [size]="toEmailSize"
+                (paste)="emailPasted('to',toEmail)" readonly onfocus="this.removeAttribute('readonly');">
+            </span>
+          </div>
+        </perfect-scrollbar>
+      </div>
+      <div class="email__cc">
+        <span (click)="showCC($event,'cc')" *ngIf="!showCc">
+          <!--          Cc-->
+          {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['cc'] ? gettingLanguage['chat']['ui_elements_messages']['cc'] : 'cc'}}:
+
+        </span>
+        <span (click)="showCC($event,'bcc')" *ngIf="!showBcc">
+          <!--          Bcc-->
+          {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['bcc']  ? gettingLanguage['chat']['ui_elements_messages']['bcc'] : 'bcc'}}:
+        </span>
+      </div>
+    </div>
+    <div class="email__container" *ngIf="showCc">
+      <label class="email__label" [class.arabic]="chatService?.currentLanguage === 'ar'">
+        {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['cc'] ? gettingLanguage['chat']['ui_elements_messages']['cc'] : 'cc'}}:
+      </label>
+      <div class="email__flex" (click)="emailsClicked('cc')">
+        <perfect-scrollbar style="max-height: 6rem" #ccScroll>
+          <div class="email__texts">
+            <span class="email__text" *ngFor="let email of emailsCc; let i = index">
+              <div>{{email}}</div>
+              <i class="fas fa-times" (click)="deleteEmail('cc',i)"></i>
+            </span>
+            <span>
+              <input type="text" name="ccEmail" #ccEmail autocomplete="off" (keydown)="toEmailKeydown('cc',$event)"
+                class="custom-input custom-input-email" (blur)="emailBlurred('cc')" [size]="ccEmailSize" readonly
+                onfocus="this.removeAttribute('readonly');">
+            </span>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </div>
+    <div class="email__container" *ngIf="showBcc">
+      <label class="email__label" [class.arabic]="chatService?.currentLanguage === 'ar'">
+        {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['bcc']  ? gettingLanguage['chat']['ui_elements_messages']['bcc'] : 'bcc'}}:
+      </label>
+      <div class="email__flex" (click)="emailsClicked('bcc')">
+        <perfect-scrollbar style="max-height: 6rem" #bccScroll>
+          <div class="email__texts">
+            <span class="email__text" *ngFor="let email of emailsBcc; let i = index">
+              <div>{{email}}</div>
+              <i class="fas fa-times" (click)="deleteEmail('bcc',i)"></i>
+            </span>
+            <span>
+              <input type="text" name="bccEmail" #bccEmail autocomplete="off" (keydown)="toEmailKeydown('bcc',$event)"
+                class="custom-input custom-input-email" (blur)="emailBlurred('bcc')" [size]="bccEmailSize" readonly
+                onfocus="this.removeAttribute('readonly');">
+            </span>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </div>
+    <div class="email__container">
+      <label class="email__label" [class.arabic]="chatService?.currentLanguage === 'ar'">
+        <!--        Subject:-->
+        {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['subject_mail'] ? gettingLanguage['chat']['ui_elements_messages']['subject_mail'] : 'Subject'}}
+
+      </label>
+      <div class="email__texts">
+        <input type="text" autocomplete="off" style="width: 98%;" class="custom-input custom-input-email"
+          [(ngModel)]="emailSubject">
+      </div>
+    </div>
+
+    <div class="email__quills" id="quills"
+      [ngClass]="{'email__quills--cc':(showCc || showBcc),'email__quills--bcc':(showBcc && showCc)}">
+      <perfect-scrollbar #scroll>
+        <div class="email__attachments">
+          <span class="email__attachments--box" *ngFor="let file of filesSelected; let i = index">
+            <i *ngIf="file.type==='excel'" class="far fa-file-excel fileicon"></i>
+            <i *ngIf="file.type==='pdf'" class="fas fa-file-pdf fileicon"></i>
+            <i *ngIf="file.type==='video'" class="fas fa-video fileicon"></i>
+            <i *ngIf="file.type==='image'" class="fas fa-image fileicon"></i>
+            <i *ngIf="file.type==='zip'" class="fas fa-file-archive fileicon"></i>
+            <i *ngIf="file.type==='file'" class="far fa-file fileicon"></i>
+            <span class="email__attachments--filename">{{file.name}}
+              <span>{{file.size}}</span>
+            </span>
+            <i class="fas fa-times" (click)="removeAttachment(i)"></i>
+          </span>
+        </div>
+        <!-- <quill-editor [modules]="quillEditor" [(ngModel)]="emailModel" (keydown)="emailEditorKeyDown($event)"></quill-editor> -->
+        <quill-editor [class.arabic]="chatService?.currentLanguage === 'ar'" theme="bubble"
+          [placeholder]="gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['insert_text'] ? gettingLanguage['chat']['ui_elements_messages']['insert_text'] : 'Insert Text Here'"
+          [modules]="quillEditor" bounds='.email__quills' [(ngModel)]="emailModel"
+          (keydown)="emailEditorKeyDown($event)"></quill-editor>
+      </perfect-scrollbar>
+    </div>
+
+    <div class="email__bottom">
+      <label for="file-upload" class="email__bottom--files" [class.arabic]="chatService?.currentLanguage === 'ar'">
+        <input type="file" autocomplete="off" class="custom-input-hidden" id="file-upload" #attachment multiple
+          (change)="onFileChange($event, attachment)">
+        <i class="fa fa-paperclip email__bottom--attach"></i>
+        <span>
+          {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['attach_files'] ? gettingLanguage['chat']['ui_elements_messages']['attach_files'] : 'Attach Files'}}:
+        </span>
+      </label>
+      <div class="text-center email__bottom--btn">
+        <button class="custom-button" type="button" (click)="sendEmail()" [disabled]="sendDisabled">
+          {{gettingLanguage &&  gettingLanguage['chat'] && gettingLanguage['chat']['ui_elements_messages']['send']  ? gettingLanguage['chat']['ui_elements_messages']['send'] : 'Send'}}
+
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="notifier" [ngClass]="{'notifier-show':showNotifier, 'arabic' : chatService?.currentLanguage === 'ar'}">
+  <span class="notifier__icon" [ngClass]="
+  {'notifier__success':notify === 'success',
+   'notifier__warning':notify === 'warning',
+   'notifier__info': notify === 'info',
+   'arabic' : chatService?.currentLanguage === 'ar'
+    }" [innerHTML]="notifierHTML"></span>
+  <span class="notifier__text">{{notifierText}}</span>
+</div>

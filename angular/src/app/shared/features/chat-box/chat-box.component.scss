@@ -1,0 +1,455 @@
+@import "../../../../variables";
+
+.chat {
+  &__head {
+    background-color: $color-primary;
+    border-radius: $border-radius-default;
+    height: 6rem;
+    display: flex;
+    align-items: center;
+    padding: 1rem 1rem;
+    box-shadow: 0.5rem 0.5rem 0.9rem rgba(45, 64, 89, 0.5);
+    color: $color-white;
+    flex: 0 0 auto;
+  }
+
+  &__body {
+    height: calc(100% - 6rem);
+    flex: 0 0 auto;
+    position: relative;
+  }
+
+  &__history {
+    text-align: center;
+
+    & span {
+      padding: 0.2rem 1rem;
+      background-color: $color-dark-green;
+      color: $color-white;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: $border-radius-default;
+      cursor: pointer;
+      font-family: $font-semi-bold;
+    }
+  }
+
+  &__userLeft {
+    text-align: center;
+
+    & span {
+      padding: 0.2rem 1rem;
+      background-color: $color-secondary;
+      color: $color-white;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: $border-radius-default;
+      cursor: pointer;
+      font-family: $font-semi-bold;
+    }
+  }
+
+  &__message {
+    white-space: pre-line;
+    align-items: center;
+
+    &--file {
+      display: flex;
+      cursor: pointer;
+      align-items: center;
+
+      &:hover .text {
+        color: $color-blue;
+        text-decoration: underline;
+      }
+    }
+
+    &--download {
+      background-color: $color-dark-green;
+      color: white;
+      width: 2.9rem;
+      height: 2.9rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & i {
+        font-size: 1.5rem;
+      }
+    }
+
+    &--comment {
+      display: block;
+      // text-align: center;
+
+      & span {
+        font-family: $font-medium;
+        font-size: 1.45rem;
+      }
+    }
+
+    & .info {
+      display: flex;
+      flex-direction: column;
+      margin-left: 0.5rem;
+
+      & .text {
+        display: flex;
+
+        & .filename {
+          // max-width: 30rem;
+          // overflow: hidden;
+          // text-overflow: ellipsis;
+          // white-space: nowrap;
+        }
+      }
+
+      & .size {
+        font-size: 1.1rem;
+      }
+    }
+  }
+
+  &__messages {
+    overflow: auto;
+    height: 98%;
+    position: relative;
+    margin-top: 1rem;
+
+    li {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    & .right {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: flex-end;
+
+      & .chat__circle {
+        background-color: $color-secondary;
+        color: $color-white;
+        margin-right: 1rem;
+        margin-left: 1rem;
+
+        &--bot {
+          background-color: $color-yellow;
+        }
+      }
+
+      & .chat__bubble {
+        background-color: $color-bg-gray;
+        border: 0;
+
+        &--bot {
+          background-color: $color-bg-gray;
+        }
+      }
+    }
+  }
+
+  &__bubble {
+    padding: 0.8rem 1.2rem;
+    border-radius: 1.8rem;
+    background: $color-white;
+    display: inline-block;
+    max-width: 40rem;
+    font-size: 1.4rem;
+    word-wrap: break-word;
+    border: $border-default;
+
+    &--location {
+      width: 54%;
+      height: 325px;
+    }
+
+    &--internal {
+      background-color: $color-green;
+      color: $color-white;
+      position: relative;
+      left: 50%;
+      transform: translate(-50%);
+      border: 0;
+      padding: 0.8rem 2.2rem;
+      border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+      text-align: center;
+      &.arabic {
+        left: unset;
+        right: 50%;
+        transform: translate(50%);
+      }
+    }
+
+    &--transfer {
+      background-color: $color-yellow;
+      color: $color-white;
+      white-space: pre-line;
+      position: relative;
+      left: 50%;
+      transform: translate(-50%);
+      padding: 0.8rem 2.2rem;
+      border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+      text-align: center;
+      border: 0;
+    }
+
+    &--agentName {
+      color: $color-primary;
+      font-family: $font-medium;
+    }
+
+    &--internaltime {
+      display: block;
+      font-size: 1.2rem;
+      text-align: right;
+      position: relative;
+      top: 5px;
+      right: -5px;
+    }
+
+    .message_time {
+      margin: 0;
+      opacity: 0.6;
+      font-size: 1.1rem;
+      font-family: $font-medium;
+    }
+  }
+
+  &__circle {
+    color: $color-white;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+    margin-right: 1rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    background-color: $color-green;
+    font-family: $font-medium;
+  }
+
+  &__date {
+    width: 100%;
+    text-align: center;
+    color: $color-text-gray-2;
+    margin: 1rem 0;
+
+    & span {
+      background-color: $color-border-gray-2;
+      padding: 0.1rem 1rem;
+      border-radius: 0.5rem;
+    }
+  }
+
+  &__time {
+    align-self: flex-end;
+    color: $color-text-gray;
+    font-size: 1.2rem;
+    padding: 0 1rem;
+  }
+
+  &__feature {
+    position: absolute;
+    background: white;
+    height: 99%;
+    right: 0;
+    width: 45%;
+    border: 1px solid #d5d9de;
+    z-index: 1;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    &.arabic {
+      right: unset;
+      left: 0;
+    }
+
+    &--header {
+      text-align: center;
+      font-size: 1.5rem;
+      margin: 1rem 0;
+    }
+
+    &--close {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      cursor: pointer;
+    }
+  }
+
+  &__head {
+    &--circle {
+      color: $color-white;
+      border-radius: 50%;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.7rem;
+      margin-right: 1rem;
+      width: 4rem;
+      height: 4rem;
+      font-family: $font-medium;
+    }
+
+    &--nameonly {
+      font-size: 1.6rem;
+      font-family: "IBMPlexSans-Medium";
+      width: 40rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 40rem;
+      white-space: nowrap;
+    }
+
+    &--name {
+      font-size: 1.6rem;
+      font-family: "IBMPlexSans-Medium";
+      width: 40rem;
+      text-overflow: ellipsis;
+      max-width: 40rem;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+      top: -8px;
+      padding: 15px 0px;
+    }
+    &--number {
+      font-size: 1.2rem;
+      font-family: "IBMPlexSans-Medium";
+      width: 20rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 40rem;
+      white-space: nowrap;
+      position: absolute;
+      z-index: 999;
+      left: 0;
+      bottom: -2px;
+    }
+
+    &--icons {
+      margin: 0 0 0 auto;
+      &.arabic {
+        margin: 0 auto 0 0;
+      }
+
+      i {
+        padding: 0.6rem;
+        cursor: pointer;
+        margin: 0 0.2rem;
+        color: $color-text-dark-gray;
+        font-size: 2rem;
+
+        &:hover {
+          color: $color-secondary;
+        }
+      }
+    }
+
+    &--revoke {
+      padding: 1rem;
+      background-color: $color-dark-green;
+      font-size: 1.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+  }
+}
+
+.notifier {
+  &__upload {
+    position: absolute;
+    display: flex;
+    top: 0rem;
+    background-color: $color-light-green;
+    width: 100%;
+    border-radius: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 100;
+    bottom: unset;
+    right: unset;
+
+    &--progress {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & .fa-times {
+        color: $color-border-gray-2;
+        position: absolute;
+        font-size: 1.5rem;
+        cursor: pointer;
+
+        &:hover {
+          color: $color-secondary;
+        }
+        &.arabic {
+          right: unset;
+          left: 0.5rem;
+        }
+      }
+    }
+  }
+
+  &__text {
+    padding: 0 1rem;
+  }
+}
+
+.fa-ticket-alt {
+  transform: rotate(-45deg);
+  font-size: 1.8rem;
+}
+
+.ticket__dropdown {
+  position: absolute;
+  border: $border-default;
+  list-style-type: none;
+  color: $color-primary;
+  width: 21%;
+  right: 1rem;
+  background-color: $color-white;
+  box-shadow: $box-shadow-default;
+  z-index: 1;
+  border-radius: $border-radius-default;
+  padding: 1rem 0;
+
+  & li {
+    padding: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 1.4rem;
+
+    & i {
+      font-size: 1.7rem;
+    }
+
+    &:hover {
+      background-color: $color-bg-gray;
+
+      & i {
+        color: $color-secondary;
+      }
+    }
+  }
+}
+.widget-chat img,
+.widget-chat-circle img {
+  background-size: cover;
+  display: block;
+}
+
+agm-map {
+  width: 100%;
+  height: 100%;
+}

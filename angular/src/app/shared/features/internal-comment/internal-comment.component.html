@@ -1,0 +1,16 @@
+<div class="agents" tabindex="1" *ngIf="showInternalAgents" (mousedown)="$event.stopPropagation()">
+  <app-no-records *ngIf="shownAgents.length<1" class="notfound" [message]="gettingLanguage"></app-no-records>
+  <app-loader *ngIf="isLoading"></app-loader>
+  <ul class="agents--list">
+    <ng-container *ngFor="let agent of shownAgents;let i=index">
+      <li class="agents--detail"
+        [ngClass]="{'agents--selected' : selectedIndex === i}"
+        (mousedown)="agentSelected(i)">
+          <img [src]="agent.image" alt="" class="agents--image">
+          <span title="agent.name">
+            {{agent.name | titlecase}}
+          </span>
+      </li>
+    </ng-container>
+  </ul>
+</div>

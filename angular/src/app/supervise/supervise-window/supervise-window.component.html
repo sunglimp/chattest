@@ -1,0 +1,9 @@
+<ng-container *ngIf="chats.length && !chatClosed">
+  <div class="chat__wrapper" >
+    <app-chat-box [chats]="chats" [client]="client" [chatsLength]="chats.length"  (openPopup)="openPopup($event)" [chatsLoading]="chatsLoading"></app-chat-box>
+  </div>
+  <app-chat-input [client]="client" [language]="gettingLanguage" (chatMessageEmitter)="sendChat($event)"></app-chat-input>
+  <app-file-view *ngIf="showViewFilePopup"  (outputEvent)="closedPopup($event)" (escEvent)="showViewFilePopup=false">
+
+  </app-file-view>
+</ng-container>

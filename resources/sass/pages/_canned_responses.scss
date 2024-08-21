@@ -1,0 +1,101 @@
+.canned{
+
+    &__info{
+      color: $color-secondary;
+      font-size: 1.4rem;
+      border-bottom: $border-default;
+      display: inherit;
+      padding-bottom: .5rem;
+    }
+  
+    &__add{
+  
+      &--box{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: .5rem;
+
+        &:not(:last-child){
+          margin-bottom: 1.5rem;
+
+        }
+  
+        & label{
+          font-size: 1.4rem;
+          color: $color-primary;
+        }
+  
+        & textarea{
+          resize: none;
+          font-family: $font-regular;
+          position: relative;
+        }
+      }
+  
+      &--button{    
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+      }
+      &--radio-container {
+        table.table {
+          tbody {
+            tr {
+              color: #2d4059;
+              td{
+                border-bottom: 0px;  
+                span{
+                  padding: 0px 5px 0px 12px;
+                }
+              }
+            }
+          }
+        }
+        .wa_push{
+          padding: 1px 0px;
+          background: #dcdcdc;
+          border-radius: 10px;
+          .popup__content{
+            margin: 15px 0px;
+            label{
+              width: 20%;
+              line-height: 30px;
+            }
+            input{
+              width: 70%;
+            }
+          }
+        }
+  
+        .email{
+          padding: 10px 15px;
+          background: #dcdcdc;
+          border-radius: 10px;
+          margin: 15px 0px;
+          .popup__content--wrap{
+            width: 100%;
+            &.width60{
+              width: 60%;
+            }
+            &.width40{
+              width: 40%;
+              label{
+                height: 45px;
+                padding-top: 25px;
+                padding-left: 15px;
+                cursor: pointer;
+                input{
+                  display: inline-block;
+                  padding-right: 10px;
+                  position: relative;
+                  top: 1px;
+                }
+              }
+            }
+          }
+        }
+      } 
+    }
+  }
+  

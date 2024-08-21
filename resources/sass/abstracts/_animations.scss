@@ -1,0 +1,243 @@
+.loader {
+    display: flex;
+    height: 100%;
+    width: 81.5%;
+    position: absolute;
+    background-color: $color-white;
+    backface-visibility: hidden;
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    animation-fill-mode: forwards;
+    -webkit-animation-fill-mode: forwards;
+    position: fixed;
+    left: 18.5%;
+    top: 0;
+    &__spinner {
+        width: 64px;
+        height: 64px;
+        background-image: url('/images/loader.gif');
+        background-repeat: no-repeat;
+    }
+    &.arabic{
+        left: 0;
+    }
+}
+
+// .chat__loader {
+//     display: flex;
+//     padding: 0.2rem 0.1rem 0.2rem 2.8rem;
+//     background: $color-green;
+//     color: $color-white;
+//     width: 90px;
+//     position: relative;
+//     left: 50%;
+//     transform: translateX(-50%);
+//     // background-image: url('/images/spinner.svg');
+//     background-size: 27px;
+//     background-repeat: no-repeat;
+//     background-position: 3px -3px;
+//     border-radius: .5rem;
+// }
+
+.spin {
+    &__preloader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    }
+    &__loader {
+        display: block;
+        position: relative;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        border-top-color: $color-primary;
+        -webkit-animation: spin 1s linear infinite;
+        animation: spin 1s linear infinite;
+        z-index: 2;
+    }
+    &__bg {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        border-color: $color-bg-gray;
+        z-index: 1;
+    }
+}
+
+.animation {
+    &__shake {
+        animation: shake .2s ease-in-out;
+        -webkit-animation: shake .2s ease-in-out;
+    }
+}
+
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes bgchnage {
+    0% {
+        background-color: $color-primary;
+    }
+    100% {
+        background-color: $color-secondary;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        height: auto;
+    }
+    70% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+        height: 0;
+    }
+}
+
+@-webkit-keyframes fadeOut {
+    0% {
+        opacity: 1;
+        height: auto;
+    }
+    60% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+        height: 0;
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(-10px);
+    }
+    70% {
+        transform: translateX(10px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+@-webkit-keyframes shake {
+    0% {
+        transform: translateX(-10px);
+    }
+    70% {
+        transform: translateX(10px);
+    }
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+@-webkit-keyframes feature-pulse {
+    0% {
+        box-shadow: inset 0 0 0 0 rgba(234, 84, 85, 0.8)
+    }
+    70% {
+        box-shadow: inset 0 0 0 3rem rgba(255, 65, 65, 0)
+    }
+    100% {
+        box-shadow: inset 0 0 0 0 rgba(255, 94, 65, 0)
+    }
+}
+
+@keyframes feature-pulse {
+    // 0% {
+    //     box-shadow: inset 0 0 0 0 rgba(255, 94, 65, 0)
+    // }
+    // 50% {
+    //     box-shadow: inset 0 0 0 3rem rgba(255, 65, 65, 0)
+    // }
+    // 100% {
+    //     box-shadow: inset 0 0 0 0 rgba(234, 84, 85, 1)
+    // }
+    0% {
+        background-color: $color-secondary;
+        color:$color-white;
+    }
+    10% {
+        background-color: $color-secondary;
+        color:$color-white;
+    }
+    20% {
+        background-color: $color-secondary;
+        color:$color-white;
+    }
+    30% {
+        background-color: $color-secondary;
+        color:$color-white;
+    }
+    40% {
+        background-color: $color-secondary;
+        color:$color-white;
+    }
+    50% {
+        background-color: $color-secondary;
+        color:$color-white;
+    }
+    51% {
+        background-color: transparent;
+        color:$color-text-dark-gray;
+    }
+    60% {
+        background-color: transparent;
+        color:$color-text-dark-gray;
+    }
+    70% {
+        background-color: transparent;
+        color:$color-text-dark-gray;
+    }
+    80% {
+        background-color: transparent;
+        color:$color-text-dark-gray;
+    }
+    90% {
+        background-color: transparent;
+        color:$color-text-dark-gray;
+    }
+    100% {
+        background-color: transparent;
+        color:$color-text-dark-gray;
+    }
+}
